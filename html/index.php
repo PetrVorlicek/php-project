@@ -1,10 +1,10 @@
 <html>
     <body>
         <form method="post" action="secret.php">
-            Likáš:
+            Lukáš:
             <input type="text" name="name">
             <br>
-            Jiránek:
+            Jirůšek:
             <input type="text" name="surname">
             <br>
             <input type="submit" value="Submit">
