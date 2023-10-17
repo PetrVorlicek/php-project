@@ -1,7 +1,6 @@
 version: "3.8"
 
 services:
-
   php-container:
     build:
       context: .
@@ -18,7 +17,8 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: password
-
+    volumes:
+      - ./seed.sql:/docker-entrypoint-initdb.d/seed.sql
 
   adminer:
     image: adminer
