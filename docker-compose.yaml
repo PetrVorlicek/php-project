@@ -11,6 +11,8 @@ services:
       - ./html:/var/www/html
     depends_on:
       - db
+    networks:
+      - app
 
   db:
     image: postgres
@@ -19,6 +21,8 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - ./seed.sql:/docker-entrypoint-initdb.d/seed.sql
+    networks:
+      - app
 
   adminer:
     image: adminer
@@ -27,3 +31,9 @@ services:
       - 8080:8080
     depends_on:
       - db
+    networks:
+      - app
+
+networks:
+  app:
+    driver: bridge

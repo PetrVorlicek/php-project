@@ -1,0 +1,109 @@
+@import url("variables.css");
+
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-color: var(--main);
+}
+
+.header {
+  width: 100%;
+}
+
+.main-nav {
+  width: 80%;
+  display: flex;
+  margin-bottom: 10rem;
+}
+
+.main-nav .btn {
+  flex-grow: 1;
+  height: 3rem;
+  margin: 0.1rem;
+}
+
+.main-container {
+  background-color: var(--main);
+  width: 100%;
+  height: 100%;
+}
+
+.main-container table {
+  width: 80%;
+  height: 35vh;
+}
+
+.main-container table .player-row div {
+  background-color: var(--info);
+  border-radius: var(--btn-border-radius);
+  height: 100%;
+  font-weight: 700;
+  border: 0.1rem solid black;
+}
+
+.main-container table .category-row .category-name {
+  background-color: var(--terciary);
+  border-radius: var(--btn-border-radius);
+  height: 100%;
+  font-weight: 700;
+  border: 0.1rem solid black;
+}
+
+.main-container table td {
+  padding: 0.1rem;
+  width: 20%;
+}
+
+.main-container table button {
+  padding: 0.1rem;
+  width: 100%;
+  height: 100%;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.question-container {
+  position: absolute;
+  width: 50%;
+  height: 20%;
+  background-color: var(--terciary2);
+  border-radius: var(--btn-border-radius);
+}
+
+.question-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.2rem;
+  width: 100%;
+  height: var(--question-header-height);
+  background-color: var(--terciary3);
+  border-top-left-radius: var(--btn-border-radius);
+  border-top-right-radius: var(--btn-border-radius);
+}
+
+.question-text {
+  width: 100%;
+  font-weight: 700;
+  height: calc(80% - var(--question-header-height));
+  border-bottom-left-radius: var(--btn-border-radius);
+  border-bottom-right-radius: var(--btn-border-radius);
+}
+
+.answer-text {
+  width: 100%;
+  font-weight: 300;
+  height: calc(20% - var(--question-header-height));
+  border-bottom-left-radius: var(--btn-border-radius);
+  border-bottom-right-radius: var(--btn-border-radius);
+}
+
+.close-question-btn {
+  right: 0;
+  font-weight: 700;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+}
