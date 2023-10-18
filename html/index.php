@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="./styles/styles.css" />
-    <link rel="stylesheet" href="./styles/universal-classes.css" />
-    <script src="./scripts/questioning.js"></script>
+    <link rel="stylesheet" href="./static/styles/styles.css" />
+    <link rel="stylesheet" href="./static/styles/universal-classes.css" />
+    <script src="./static/scripts/questioning.js"></script>
   </head>
   <body>
     <div class="header flex-center">

@@ -13,7 +13,7 @@ To run this project, follow these steps:
    `docker compose build`
 5. Once the containers are built, start the project by running:
    `docker compose up`
-6. Open your web browser and go to http://localhost:8080 to view the project.
+6. Open your web browser and go to http://localhost:80 to view the project, or http://localhost:8080 to view the .
 
 ## Usage
 
