@@ -6,104 +6,97 @@
 }
 
 body {
-  background-color: var(--main);
+  margin: var(--body-margin);
+  min-height: calc(100vh - (2 * var(--body-margin)));
+  background: linear-gradient(
+    to top left,
+    var(--question-table-border),
+    var(--terciary),
+    var(--question-table-border)
+  );
 }
 
 .header {
-  width: 100%;
-}
+  width: var(--main-container-width);
+  & .main-nav {
+    width: calc(var(--main-container-width) - 20%);
+    display: flex;
+    margin-bottom: 10rem;
 
-.main-nav {
-  width: 80%;
-  display: flex;
-  margin-bottom: 10rem;
-}
-
-.main-nav .btn {
-  flex-grow: 1;
-  height: 3rem;
-  margin: 0.1rem;
+    & .btn {
+      flex-grow: 1;
+      height: 3rem;
+      margin: calc(var(--gutter) * 0.5);
+    }
+  }
 }
 
 .main-container {
-  background-color: var(--main);
-  width: 100%;
+  width: var(--main-container-width);
   height: 100%;
-}
 
-.main-container table {
-  width: 80%;
-  height: 35vh;
-}
+  .questions-table {
+    border-radius: var(--btn-border-radius);
+    width: calc(var(--main-container-width) - 20%);
+    background-image: linear-gradient(
+      to top,
+      var(--question-table-start),
+      var(--question-table-end)
+    );
+    height: 35vh;
+    border: var(--border-width) solid var(--question-table-border);
 
-.main-container table .player-row div {
-  background-color: var(--info);
-  border-radius: var(--btn-border-radius);
-  height: 100%;
-  font-weight: 700;
-  border: 0.1rem solid black;
-}
+    & .player-row div {
+      background-color: var(--info);
+      border-radius: var(--btn-border-radius);
+      border: var(--border-width) solid var(--info-active);
+      height: 100%;
+      font-weight: 700;
+    }
 
-.main-container table .category-row .category-name {
-  background-color: var(--terciary);
-  border-radius: var(--btn-border-radius);
-  height: 100%;
-  font-weight: 700;
-  border: 0.1rem solid black;
-}
+    & .category-row .category-name {
+      background-color: var(--terciary);
+      border-radius: var(--btn-border-radius);
+      border: var(--border-width) solid var(--terciary-active);
+      height: 100%;
+      font-weight: 700;
+    }
 
-.main-container table td {
-  padding: 0.1rem;
-  width: 20%;
-}
+    & td {
+      padding: calc(var(--gutter) * 0.5);
+      width: 20%;
+    }
 
-.main-container table button {
-  padding: 0.1rem;
-  width: 100%;
-  height: 100%;
-  font-weight: 700;
-  font-size: 1.3rem;
+    & button {
+      padding: calc(var(--gutter) * 0.5);
+      width: 100%;
+      height: 100%;
+      font-weight: 700;
+      font-size: 1.3rem;
+    }
+  }
 }
 
 .question-container {
-  position: absolute;
-  width: 50%;
-  height: 20%;
-  background-color: var(--terciary2);
-  border-radius: var(--btn-border-radius);
-}
+  & .question-text {
+    padding: calc(var(--gutter) * 2);
+    height: calc(100% - var(--question-header-height));
+    font-weight: 700;
 
-.question-header {
-  display: flex;
-  justify-content: flex-end;
-  padding: 0.2rem;
-  width: 100%;
-  height: var(--question-header-height);
-  background-color: var(--terciary3);
-  border-top-left-radius: var(--btn-border-radius);
-  border-top-right-radius: var(--btn-border-radius);
-}
+    & td {
+      padding: calc(var(--gutter) * 2);
 
-.question-text {
-  width: 100%;
-  font-weight: 700;
-  height: calc(80% - var(--question-header-height));
-  border-bottom-left-radius: var(--btn-border-radius);
-  border-bottom-right-radius: var(--btn-border-radius);
-}
+      & .answer-btn {
+        background-color: var(--question-answer-btn);
+        border: var(--border-width) solid var(--question-answer-btn-active);
+        color: white;
+        width: 3rem;
+        font-weight: 700;
 
-.answer-text {
-  width: 100%;
-  font-weight: 300;
-  height: calc(20% - var(--question-header-height));
-  border-bottom-left-radius: var(--btn-border-radius);
-  border-bottom-right-radius: var(--btn-border-radius);
-}
-
-.close-question-btn {
-  right: 0;
-  font-weight: 700;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
+        &:active {
+          background-color: var(--question-answer-btn-active);
+        }
+      }
+    }
+  }
 }

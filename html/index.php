@@ -29,7 +29,7 @@
     ?>
 
     <div class="main-container flex-center">
-      <table>
+      <table class="questions-table">
         <tbody>
           <tr class="player-row">
             <td>
@@ -93,16 +93,58 @@
           <?php endforeach; ?>
 
         </tbody>
-        <div class="question-container d-none">
-          <div class="question-header">
-            <button class="btn close-question-btn" onclick="triggerQuestion()">
-              X
-            </button>
-          </div>
-          <div class="question-text flex-center"></div>
-          <div class="answer-text flex-center"></div>
-        </div>
       </table>
+      <div class="modal d-none">
+        <div class="modal-header top-radius">
+          <span>Choose number of players</span>
+          <button
+            class="btn btn-close close-question-btn"
+            onclick="triggerQuestion()"
+          >
+            X
+          </button>
+        </div>
+      </div>
+      <div class="modal question-container d-none">
+        <div class="modal-header question-header w-100 top-radius">
+          <span>CATEGORY</span>
+          <button
+            class="btn btn-close close-question-btn"
+            onclick="triggerQuestion()"
+          >
+            X
+          </button>
+        </div>
+        <div class="question-text w-100 flex-center bottom-radius">
+          <table>
+            <tbody>
+              <tr>
+                <td colspan="2">Dafuck question how is the wow?</td>
+              </tr>
+              <tr>
+                <td class="w-50">Answer 1</td>
+                <td class="w-50">
+                  <button class="btn answer-btn" onclick="handlePoints(5)">
+                    A
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td class="w-50">Answer 2</td>
+                <td class="w-50"><button class="btn answer-btn">B</button></td>
+              </tr>
+              <tr>
+                <td class="w-50">Answer 3</td>
+                <td class="w-50"><button class="btn answer-btn">C</button></td>
+              </tr>
+              <tr>
+                <td class="w-50">Answer 4</td>
+                <td class="w-50"><button class="btn answer-btn">D</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </body>
 </html>
