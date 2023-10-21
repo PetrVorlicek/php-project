@@ -3,7 +3,6 @@
     $password = "";
     $usernameError = "";
     $passwordError = "";
-    $usernameCount = "";
     $success = "";
     if($_SERVER["REQUEST_METHOD"]==="POST")  {
     $username = htmlspecialchars($_POST["username"]);
@@ -12,7 +11,6 @@
     if (strlen($password) < 8) {
         $passwordError = "Příliš krátké heslo!";
     }
-
 
     // connection to DB
     $dbHostname = "db";
@@ -62,5 +60,5 @@
     <br>
     <input type="submit" value="Zaregistrovat!">
 </form>
-<p><?=$success; ?>
+<p><?=$success; ?></p>
 <?php include "./templates/php-footer.php"; ?>
