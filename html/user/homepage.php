@@ -31,6 +31,7 @@
         <li>Hry: <?=$games; ?></li>
         <li>Výhry: <?=$wins; ?></li>
     </ul>
+    <a href="/play">Hrej!</a>
 </div>
 
 <?php include "./templates/php-footer.php"; ?>
