@@ -1,4 +1,4 @@
-<?php 
+<?php
     $username = "";
     $password = "";
     $usernameError = "";
@@ -13,13 +13,7 @@
     }
 
     // connection to DB
-    $dbHostname = "db";
-    $dbname = "postgres";
-    $dbUsername = "postgres";
-    $dbPassword = "password";
-
-    $dsn = "pgsql:host=$dbHostname;dbname=$dbname";
-    $db = new PDO($dsn, $dbUsername, $dbPassword);
+    $db = connectDB();
 
     // check if user exists
     $usernameQuery = $db->prepare("SELECT COUNT(*)

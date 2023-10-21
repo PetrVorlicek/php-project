@@ -10,16 +10,10 @@
         $password = htmlspecialchars($_POST["password"]);
     
         // connection to DB
-        $dbHostname = "db";
-        $dbname = "postgres";
-        $dbUsername = "postgres";
-        $dbPassword = "password";
-    
-        $dsn = "pgsql:host=$dbHostname;dbname=$dbname";
-        $db = new PDO($dsn, $dbUsername, $dbPassword);
+        $db = connectDB();
     
         // check if user exists
-        $usernameQuery = $db->prepare("SELECT username, pw_hash
+        $usernameQuery = $db->prepare("SELECT id, username, pw_hash
                                         FROM account
                                         WHERE username = :username;");
         $usernameQuery->execute(["username" => $username]);
@@ -31,6 +25,12 @@
             $validPw = password_verify($password, $userData["pw_hash"]);
             if($validPw) { 
                 $success = "Úspěšné přihlášení!";
+                $userId = $userData["id"];
+                // redirect to user homepage
+                header("Location: ./homepage?id=$userId");
+                exit();
+                // TODO set user session - into cookies, JWT, ...
+
             } else { 
                 $error = "Nevalidní login!";
             }
@@ -47,9 +47,11 @@
     <p><?= $error; ?></p>
     <label for="username">Nickname</label>
     <input type="text" name="username" id="username" value="<?=$username; ?>">
+    <p></p>
     <br>
     <label for="password">Heslo</label>
     <input type="text" name="password" id="password" value="<?=$password; ?>">
+    <p></p>
     <br>
     <input type="submit" value="Přihlásit!">
 </form>
