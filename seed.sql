@@ -23,6 +23,16 @@ CREATE TABLE answer (
     answer_text text
 );
 
+CREATE TABLE account (
+    id  PRIMARY KEY,
+    username text UNIQUE,
+    pw_hash text,
+    profile_pict text,
+    points int,
+    games int,
+    wins int
+);
+
 -- DB SEED
 
 INSERT INTO category (id, name) VALUES
