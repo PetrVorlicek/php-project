@@ -9,11 +9,12 @@ To run this project, follow these steps:
 1. Clone the repository to your local machine.
 2. Make sure you have Docker installed and running.
 3. Open a terminal or command prompt and navigate to the project directory.
-4. Build the Docker containers by running the following command:
+4. (Optional) Create .env file from .env.example
+5. Build the Docker containers by running the following command:
    `docker compose build`
-5. Once the containers are built, start the project by running:
+6. Once the containers are built, start the project by running:
    `docker compose up`
-6. Open your web browser and go to http://localhost:80 to view the project, or http://localhost:8080 to view the .
+7. Open your web browser and go to http://localhost:80 to view the project, or http://localhost:8080 to view the .
 
 ## Usage
 
