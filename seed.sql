@@ -24,7 +24,7 @@ CREATE TABLE answer (
 );
 
 CREATE TABLE account (
-    id  PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     username text UNIQUE,
     pw_hash text,
     profile_pict text,
