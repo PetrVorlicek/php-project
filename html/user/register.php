@@ -41,18 +41,20 @@
     $title="Nový uchazeč";
     $site="Registrace";
     include "./templates/php-home-header.php"; ?>
-<h3>Registrace</h3>
-<form method="post" action="">
+    <div class="container pt-5">
+        <h3>Registrace</h3>
+        <form method="post" action="">
 
-    <label for="username">Nickname</label>
-    <input type="text" name="username" id="username" value="<?=$username; ?>">
-    <p><?= $usernameError; ?></p>
-    <br>
-    <label for="password">Heslo</label>
-    <input type="text" name="password" id="password" value="<?=$password; ?>">
-    <p><?= $passwordError; ?></p>
-    <br>
-    <input type="submit" value="Zaregistrovat!">
-</form>
-<p><?=$success; ?></p>
-<?php include "./templates/php-footer.php"; ?>
+            <label for="username" class="form-label">Nickname</label>
+            <input type="text" name="username" id="username" value="<?=$username; ?>" class="form-control" >
+            <p><?= $usernameError; ?></p>
+            <br>
+            <label for="password" class="form-label">Heslo</label>
+            <input type="text" name="password" id="password" value="<?=$password; ?>" class="form-control" >
+            <p><?= $passwordError; ?></p>
+            <br>
+            <input type="submit" value="Zaregistrovat!">
+        </form>
+        <p><?=$success; ?></p>
+    </div>
+    <?php include "./templates/php-footer.php"; ?>

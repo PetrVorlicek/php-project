@@ -1,41 +1,12 @@
 @import url("variables.css");
 
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .flex-center {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.d-block {
-  display: block !important;
-}
-
-.d-none {
-  display: none !important;
-}
-
-.btn {
-  border-radius: var(--btn-border-radius);
-  border: 0.1rem solid black;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background-color: var(--primary);
-}
-
-.btn-primary:active {
-  background-color: var(--primary-active);
-}
-
-.btn-secondary {
-  background-color: var(--secondary);
-}
-
-.btn-secondary:active {
-  background-color: var(--secondary-active);
-}
-
-.btn-terciary {
-  background-color: var(--terciary);
 }
