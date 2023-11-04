@@ -1,7 +1,9 @@
-        </section>
-        <footer>
-            <hr>
-            <p>Footer placeholder </p>
-        </footer>
+    </section>
+    <footer class="container">
+        <hr>
+        <p>Mirkovi smrdi nohy</p>
+    </footer>
+
     </body>
-</html>
+
+    </html>

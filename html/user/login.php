@@ -42,18 +42,20 @@
     $title="Login";
     $site="Login";
     include "./templates/php-home-header.php"; ?>
+<div class="container pt-5">
 <h3>Login</h3>
 <form method="post" action="">
-    <p><?= $error; ?></p>
-    <label for="username">Nickname</label>
-    <input type="text" name="username" id="username" value="<?=$username; ?>">
+    <?php if ($error != '') echo "<div class=\"alert alert-danger\">$error</div>"; ?>
+    <label for="username" class="form-label">Nickname</label>
+    <input type="text" name="username" id="username" value="<?=$username; ?>" class="form-control">
     <p></p>
     <br>
-    <label for="password">Heslo</label>
-    <input type="text" name="password" id="password" value="<?=$password; ?>">
+    <label for="password" class="form-label">Heslo</label>
+    <input type="text" name="password" id="password" value="<?=$password; ?>" class="form-control">
     <p></p>
     <br>
     <input type="submit" value="Přihlásit!">
 </form>
 <p><?=$success; ?></p>
+</div>
 <?php include "./templates/php-footer.php"; ?>

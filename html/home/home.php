@@ -2,5 +2,14 @@
     $title="Vítejte!";
     $site="Úvodní stránka";
     include "./templates/php-home-header.php"; ?>
-<div>Hlavní stránka</div>
+    <div class="text-break">
+        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam quis quam. Sed elit dui, pellentesque a, faucibus vel, interdum nec, diam. Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Aliquam erat volutpat. Morbi imperdiet, mauris ac auctor dictum, nisl ligula egestas nulla, et sollicitudin sem purus in lacus. Etiam egestas wisi a erat. Praesent dapibus. Integer imperdiet lectus quis justo. Suspendisse sagittis ultrices augue. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+
+        <p>Phasellus faucibus molestie nisl. Maecenas ipsum velit, consectetuer eu lobortis ut, dictum at dui. Donec vitae arcu. Nullam justo enim, consectetuer nec, ullamcorper ac, vestibulum in, elit. Aenean id metus id velit ullamcorper pulvinar. Duis risus. Morbi scelerisque luctus velit. Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus. Cras elementum. Fusce dui leo, imperdiet in, aliquam sit amet, feugiat eu, orci.</p>
+
+        <p>Aliquam erat volutpat. Suspendisse sagittis ultrices augue. Mauris tincidunt sem sed arcu. Curabitur bibendum justo non orci. Nulla non arcu lacinia neque faucibus fringilla. Pellentesque arcu. Maecenas lorem. Nulla est. Donec ipsum massa, ullamcorper in, auctor et, scelerisque sed, est. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Donec vitae arcu. Donec quis nibh at felis congue commodo. Nullam faucibus mi quis velit. Maecenas lorem. Nunc dapibus tortor vel mi dapibus sollicitudin. Aenean vel massa quis mauris vehicula lacinia. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Fusce tellus. Praesent vitae arcu tempor neque lacinia pretium. Aenean id metus id velit ullamcorper pulvinar.</p>
+
+        <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Maecenas aliquet accumsan leo. Maecenas sollicitudin. In dapibus augue non sapien. Aenean placerat. Fusce dui leo, imperdiet in, aliquam sit amet, feugiat eu, orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer in sapien. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Praesent dapibus. Integer in sapien. Duis viverra diam non justo. Etiam dui sem, fermentum vitae, sagittis id, malesuada in, quam. Aliquam erat volutpat. Phasellus et lorem id felis nonummy placerat. Duis viverra diam non justo. Maecenas lorem. In enim a arcu imperdiet malesuada. Vivamus ac leo pretium faucibus.</p>
+
+    </div>
 <?php include "./templates/php-footer.php"; ?>

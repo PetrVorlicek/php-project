@@ -1,16 +1,36 @@
 :root {
   --main: #125da9;
+
   --primary: #4eebaf;
   --primary-active: #37c18c;
-  --secondary: #f2ff37;
-  --secondary-active: #bcc729;
+
+  --question: #f2ff37;
+  --question-active: #bcc729;
 
   --terciary: #4e9feb;
+  --terciary-active: #388bd9;
+  --terciary1: #9bcfff;
   --terciary2: #8bb8e3;
   --terciary3: #3985cc;
 
   --info: #b2cce4;
-  --btn-border-radius: 1rem;
+  --info-active: #8da1b4;
 
+  --error: #f8d7da;
+  --error-font: #842029;
+  --error-active: #f5b0b6;
+
+  --question-table-start: #0e3e6d;
+  --question-table-end: #101e2e;
+  --question-table-border: #112f4d;
+  --question-answer-btn: #2f6478;
+  --question-answer-btn-active: #183945;
+
+  --alert-body-width: 80%;
+  --gutter: 0.2rem;
+  --body-margin: 1rem;
+  --main-container-width: 100%;
+  --btn-border-radius: 1rem;
+  --border-width: 0.3rem;
   --question-header-height: 25%;
 }

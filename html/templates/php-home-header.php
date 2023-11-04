@@ -3,12 +3,15 @@
         <head>
             <!-- TODO -->
             <title>CZU RISK: <?= $title; ?></title>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         </head>
         <body>
             <header>
-                <h1>ČZU Risk! hra</h1>
-                <h2><?=$site; ?></h2>
+                <div class="container pt-5">
+                    <h1>ČZU Risk! hra</h1>
+                </div>
                 <?php include "./templates/php-nav.php"; ?>
             </header>
-            <section>
+            <section style="min-height: 60vh" class="container pt-5">
         <!-- DON'T ADD ANYTHING BELLOW -->
