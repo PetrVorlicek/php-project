@@ -1,6 +1,3 @@
-<!-- ROUTER -->
-
-
 <!DOCTYPE html>
 <html>
 
@@ -21,7 +18,6 @@
   <?php
   // Connection to DB
   $db = connectDB();
-
   ?>
 
   <div class="container">
@@ -37,6 +33,18 @@
 
     <div class="flex-center">
       <div class="questions-holder w-100 border-radius">
+        <script>
+          // FRONTEND websocket script
+          var conn = new WebSocket('ws://localhost:8091');
+          conn.onopen = function(e) {
+              console.log("Connection established!");
+          };
+
+          conn.onmessage = function(e) {
+              console.log(e.data);
+          };
+
+        </script>
         <div class="player-name player-info fw-bold rounded flex-center">NAME</div>
         <div class="player-points player-info fw-bold rounded flex-center">POINTS</div>
 
@@ -68,7 +76,7 @@
         $index = 0; ?>
 
         <?php for ($i = 1; $i < 6; $i++) : ?>
-          <div class="category-buttons category-<?php echo $i; ?>-btns">
+          <div class="category-buttons category-<?= $i; ?>-btns">
 
             <?php for ($n = 1; $n < 6; $n++) : ?>
               <button class="btn btn-question w-100 mb-1" onclick="triggerQuestion()" data-bs-toggle="modal" data-bs-target="#game-modal">
@@ -103,6 +111,8 @@
 </body>
 
 </html>
+
+
 <?php
 $db = null;
 ?>

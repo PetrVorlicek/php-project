@@ -7,8 +7,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - 80:80
+      - 8091:8091
     volumes:
       - ./html:/var/www/html
+      - ./websocket/server:/var/www/websocket/server
     depends_on:
       - db
 
