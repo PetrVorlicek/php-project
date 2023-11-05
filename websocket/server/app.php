@@ -13,10 +13,23 @@ class MyChat implements MessageComponentInterface {
     }
 
     public function onOpen(ConnectionInterface $conn) {
-        // Store the new connection to send messages to later
-        $this->clients->attach($conn);
+        // Check if the queue is empty
+        if (count($this->clients) >= 2) {
+            $conn->send("This session is full!");
+            return;
+        }
+
+        foreach ($this->clients as $client) {
+            $client->send("New player just came! " . print_r(get_object_vars($conn)));
+        }
+        
+        
 
         echo "New connection! ({$conn->resourceId})\n";
+        $conn->send("Welcome, player!");
+        // Finally, add new player to clients to send messages to later
+
+        $this->clients->attach($conn);
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
@@ -37,6 +50,10 @@ class MyChat implements MessageComponentInterface {
         $this->clients->detach($conn);
 
         echo "Connection {$conn->resourceId} has disconnected\n";
+
+        foreach ($this->clients as $client) {
+            $client->send("Player " . print_r($conn->resourceId) . " has disconnected.");
+        }
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) {
