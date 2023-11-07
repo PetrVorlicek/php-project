@@ -63,6 +63,8 @@ class Question {
         $rightAnswerQuery->execute(["categoryID" => $categoryID,"pointsID"=> $pointsID]);
         $wrongAnswerQuery->execute(["categoryID" => $categoryID,"pointsID"=> $pointsID]);
 
+        $questionData = $questionQuery->fetch(PDO::FETCH_ASSOC);
+
 
         // Close db connection
         $db = null;
