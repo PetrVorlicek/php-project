@@ -5,6 +5,7 @@ require __DIR__.'/../vendor/autoload.php';
 // MESSAGE HANDLER - SERVER GAME LOGIC
 
 function connectDB() {
+    // TODO import from some shared space
     // connection to DB
     $dbHostname = "db";
     $dbname = "postgres";
@@ -61,9 +62,11 @@ class Question {
         // Execute queries
         $questionQuery->execute(["categoryID" => $categoryID,"pointsID"=> $pointsID]);
         $rightAnswerQuery->execute(["categoryID" => $categoryID,"pointsID"=> $pointsID]);
-        $wrongAnswerQuery->execute(["categoryID" => $categoryID,"pointsID"=> $pointsID]);
+        $wrongAnswersQuery->execute(["categoryID" => $categoryID,"pointsID"=> $pointsID]);
 
         $questionData = $questionQuery->fetch(PDO::FETCH_ASSOC);
+        $rigthAnswerData = $rightAnswerQuery->fetch(PDO::FETCH_ASSOC);
+        $wrongAnswersData = $wrongAnswersQuery->fetch(PDO::FETCH_ASSOC);
 
 
         // Close db connection
@@ -75,7 +78,7 @@ class Question {
         $allAnswers = [...$this->wrongAnswers, $this->rigthAnswer];
         shuffle($allAnswers);
         // Returns a flat array with question as first index
-        return [$this->question, ...$allAnswers]
+        return [$this->question, ...$allAnswers];
     }
 
     public function evalQuestion($userAnswer) {
@@ -93,13 +96,22 @@ class Question {
  }
 
 class QuestionCategory {
+    private $className;
+    private $questions;
+
+    
+    public function getQuestion($pointValue) {
+
+    }
+    public function answerQuestion($pointValue) {
+
+    }
 
 }
 
 class Game {
     // Class handling game state
     private $categories;
-    private $
 
 
 }
@@ -109,6 +121,11 @@ class GameHandler {
     private $onTurn;
     private $players;
     private $game;
+
+    public function __construct($player1, $player2)
+    {
+        
+    }
 
 }
 
