@@ -18,7 +18,7 @@ class Player {
     public string $name;
     public int $points;
 
-    public function __construct($name, $points) {
+    public function __construct($name, $points = 0) {
         // TODO rather than using name use ID from DB
         $this->name = $name;
         $this->points = $points;
@@ -27,8 +27,12 @@ class Player {
 
 class Message {
     public string $command;
-    public string $playerName; // TODO maybe remove this field
     public $payload;
+
+    public function __construct($command, $payload) {
+        $this->command = $command;
+        $this->payload = $payload;
+    }
 }
 
 class Question {
@@ -164,7 +168,7 @@ class Game {
     /** @var Player[] */
     private array $players;
     /** @var array<array<string, string>> */ 
-    private array $usedQuestions;
+    private array $usedQuestions = [];
     private int $onTurn;
     private int $turnsRemaining;
     public function __construct(Player $player1, Player $player2, int $turnsRemaining = 0) {
@@ -330,7 +334,7 @@ class GameHandler {
                 "onTurn" => $this->game->getPlayerOnTurn() === $otherPlayer,
             ],
             "gameState" => [
-                "isOver" => null,
+                "isOver" => $this->game->isOver(),
                 "usedQuestions" => $this->game->getUsedQuestions(),
             ],
         ];
