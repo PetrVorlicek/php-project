@@ -16,9 +16,10 @@ function connectDB() {
     return $db;
 }
 
+// TODO add type annotations
 class Player {
-    public $name;
-    public $points;
+    public string $name;
+    public int $points;
 
     public function __construct($name, $points) {
         // TODO rather than using name use ID from DB
@@ -98,31 +99,150 @@ class Question {
 }
 
 class QuestionCategory {
-    private $className;
-    private $questions;
+    /** @var Question[] */
+    private array $questions;
+    private static $points; // [id -> point_value]
+    public static function loadPoints() {
+        // Connect to the DB
+        $db = connectDB();
 
+        // Load points to the pointValues array
+        $query = $db->query("SELECT id, point_value 
+                             FROM point_category 
+                             ORDER BY point_value ASC");
+        $data = $query->fetchAll(PDO::FETCH_ASSOC);
+        $points = array();
+        foreach ($data as $row) {
+            $points[$row["id"]] = $row["point_value"];
+        }
+        QuestionCategory::$points = $points;
 
-    public function getQuestion($pointValue) {
-
+        // Disconnect DB
+        $db = null;
     }
-    public function answerQuestion($pointValue) {
+    public function __construct($categoryName) {
+        // Connect DB
+        $db = connectDB();
 
+        // Get category ID
+        $categoryIDQuery = $db->prepare('SELECT id 
+                                         FROM category 
+                                         WHERE category.name = :categoryName');
+        $categoryIDQuery->execute(['categoryName'=> $categoryName]);
+        $categoryIDData = $categoryIDQuery->fetch(PDO::FETCH_ASSOC);
+        $categoryID = array_column($categoryIDData, 'id');
+
+        // Create dict of questions
+        foreach (QuestionCategory::$points as $point) {
+            $this->questions[$point["id"]] = new Question($categoryID, $point["id"]);
+        }
+
+        // Disconnect DB
+        $db = null;
     }
-
+    public function getQuestion($pointID) {
+        if (!isset($this->questions[$pointID])) {
+            return $this->questions[$pointID]->getQuestion();
+         }
+    }
+    public function answerQuestion($pointID, $userAnswer) {
+        // Returns the points the user gets for his answer
+        if (!isset($this->questions[$pointID])) {
+            $answer = $this->questions[$pointID]->evalQuestion($userAnswer);
+            return $answer * QuestionCategory::$points[$pointID];
+        }
+    }
 }
 
 class Game {
-    // Class handling game state
-    private $categories;
+    // Class handling the game state
+    /** @var QuestionCategory[] */
+    private array $categories;
+    /** @var Player[] */
+    private array $players;
+    private int $onTurn;
+    private int $turnsRemaining;
+    public function __construct(Player $player1, Player $player2, int $turnsRemaining = 0) {
+        
+        $db = connectDB();
+        QuestionCategory::loadPoints();
 
+        // Load category names and categories
+        $categoryNameQuery = $db->query("SELECT name FROM category");
+        $categoryNameData = $categoryNameQuery->fetch(PDO::FETCH_ASSOC);
+        $categoryNames = array_column($categoryNameData,"name");
+        foreach ($categoryNames as $categoryName) {
+            $this->categories[$categoryName] = new QuestionCategory($categoryName);
+        }
+
+        // Save players for later use
+        $this->players = array($player1, $player2);
+        $this->onTurn = 0;
+
+        // Save turns remaining
+        // TODO: defaultly load from DB
+        if ($turnsRemaining === 0) {
+            $turnsRemaining = 25;
+        }
+        $this->turnsRemaining = $turnsRemaining;
+
+        $db = null;
+    }
+
+    private function &switchTurn() {
+        // Returns the player ref on turn and switches who is on turn next
+        $player = $this->players[$this->onTurn];
+        $this->onTurn = $this->onTurn ===0 ? 1 : 0;
+        $this->turnsRemaining -= 1;
+        return $player;
+    }
+
+    public function handleQuestion($categoryName,$pointsID) {
+        if(isset($this->categories[$categoryName])) {
+            return $this->categories[$categoryName]->getQuestion($pointsID);
+        }
+    }
+
+    public function handleAnswer($categoryName,$pointsID,$userAnswer) {
+        // Returns true if question was succesfull, false othervise
+        if ($this->turnsRemaining <= 0) return false;
+
+        if(isset($this->categories[$categoryName])) {
+            // Get player
+            $player = &$this->switchTurn();
+
+            // Get points for answer
+            $points = $this->categories[$categoryName]->answerQuestion($pointsID, $userAnswer);
+            
+            // Add points to the player
+            $player->points += $points;
+
+            return $points > 0;
+        }
+        return false;
+    }
+
+    public function getPlayerOnTurn() {
+        // Returns name of the player on turn
+        return $this->players[$this->onTurn]->name;
+    }
+    public function getPlayerPoints($playerName) {
+        // Returns the points of the player with specified name
+        $player = array_filter($this->players, function($player) use ($playerName) {
+            return $player->name === $playerName;
+        })[0];
+        return $player ? $player->points : 0;
+    }
+
+    public function isOver() {
+        return $this->turnsRemaining > 0;
+    }
 
 }
 
 class GameHandler {
-    // Class handling alternating commands from players.
-    private $onTurn;
-    private $players;
-    private $game;
+    // Class handling the message interactions
+    private Game $game;
 
     public function __construct($player1, $player2)
     {
