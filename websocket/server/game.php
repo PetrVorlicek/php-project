@@ -265,7 +265,7 @@ class Game {
 
     // TODO is this useful?
     public function isOver() {
-        return $this->turnsRemaining > 0;
+        return !$this->turnsRemaining > 0;
     }
 }
 
