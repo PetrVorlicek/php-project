@@ -1,8 +1,8 @@
 <?php
 require __DIR__."/../vendor/autoload.php";
-include "./game.php";
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
+include __DIR__."/game.php";
 
 function generateRandomString($length = 10) {
     // Random string generator for assigning player names
@@ -21,6 +21,8 @@ class MessageHandler implements MessageComponentInterface {
     //
     protected $clients;
 
+    private $gameHandler;
+
     public function __construct() {
         $this->clients = new \SplObjectStorage;
     }
@@ -28,31 +30,42 @@ class MessageHandler implements MessageComponentInterface {
     public function onOpen(ConnectionInterface $conn) {
         // Check if the queue is empty
         if (count($this->clients) >= 2) {
-            $conn->send("This session is full!");
+            $errorMessage = ["type" =>"error", 
+            "payload" => "This session is full!"];
+            $conn->send(json_encode($errorMessage));
+            $conn->close();
             return;
         }
-
-        echo "New connection! ({$conn->resourceId})\n";
-
-        
-
-        // Add and greet new player
+        // Save the player connection and his name
         $name = generateRandomString();
-        $conn->send("Welcome, player " . $name ."!");
+        $this->clients->offsetSet($conn, $name);
 
+        $this->greet();
+        
+    }
+
+    private function greet() {
+        // Yield all client names
+        $clientNames = [];
         foreach ($this->clients as $client) {
             $clientName = $this->clients->offsetGet($client);
-            $client->send("New player just came! Your name is: $clientName");
+            $clientNames[] = $clientName;
+         }
+        
+        // Greet all clients 
+        foreach ($this->clients as $client) {
+            $clientName = $this->clients->offsetGet($client);
+            $greet = ["type" => "greet",
+                "payload" => [
+                "player" => $clientName,
+                "allPlayers" => $clientNames,]
+            ,];
+            
+            $client->send(json_encode($greet));
         }
-
-        $this->clients->offsetSet($conn, $name);
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
-        $numRecv = count($this->clients) - 1;
-        echo sprintf("Connection %d sending message '%s' to %d other connection%s" . "\n"
-            , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? "" : "s");
-
         foreach ($this->clients as $client) {
             if ($from !== $client) {
                 // The sender is not the receiver, send to each client connected
@@ -62,13 +75,29 @@ class MessageHandler implements MessageComponentInterface {
     }
 
     public function onClose(ConnectionInterface $conn) {
+        
+        // Try getting playername
+        $playerName = null;
+        try {
+            $playerName = $this->clients->offsetGet($conn);
+        } catch (\Exception $e) {
+            $playerName = null;
+        }
+
         // The connection is closed, remove it, as we can no longer send it messages
         $this->clients->detach($conn);
 
-        echo "Connection {$conn->resourceId} has disconnected\n";
+        echo $playerName . " has disconnected.";
 
         foreach ($this->clients as $client) {
-            $client->send("Player " . print_r($conn->resourceId) . " has disconnected.");
+            if ($playerName !== null) {
+                $warning = ["type" => "warning",
+                "payload"=>[
+                    "message"=>"Player {$playerName} has disconnected.", 
+                    "disconnect" => $playerName,],
+                ];
+                $client->send(json_encode($warning));
+            }
         }
     }
 
