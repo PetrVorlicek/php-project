@@ -42,28 +42,12 @@ class MessageHandler implements MessageComponentInterface {
 
         $this->greet();
         
-    }
-
-    private function greet() {
-        // Yield all client names
-        $clientNames = [];
-        foreach ($this->clients as $client) {
-            $clientName = $this->clients->offsetGet($client);
-            $clientNames[] = $clientName;
-         }
-        
-        // Greet all clients 
-        foreach ($this->clients as $client) {
-            $clientName = $this->clients->offsetGet($client);
-            $greet = ["type" => "greet",
-                "payload" => [
-                "player" => $clientName,
-                "allPlayers" => $clientNames,]
-            ,];
-            
-            $client->send(json_encode($greet));
+        if (count($this->clients) === 2) {
+            $this->startGame();
         }
     }
+
+
 
     public function onMessage(ConnectionInterface $from, $msg) {
         foreach ($this->clients as $client) {
@@ -99,11 +83,71 @@ class MessageHandler implements MessageComponentInterface {
                 $client->send(json_encode($warning));
             }
         }
+
+        // Destroy the game
+        if ($this->gameHandler !== null) {
+            $this->gameHandler = null;
+        }
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) {
         echo "An error has occurred: {$e->getMessage()}\n";
 
         $conn->close();
+    }
+
+    /* PRIVATE FUNCTIONS */
+    private function greet() {
+        // Yield all client names
+        $clientNames = $this->getClientNames();
+        
+        // Greet all clients 
+        foreach ($this->clients as $client) {
+            $clientName = $this->clients->offsetGet($client);
+            $greet = ["type" => "greet",
+                "payload" => [
+                "player" => $clientName,
+                "allPlayers" => $clientNames,]
+            ,];
+            
+            $client->send(json_encode($greet));
+        }
+    }
+
+    private function getClientNames() {
+        $clientNames = [];
+        foreach ($this->clients as $client) {
+            $clientName = $this->clients->offsetGet($client);
+            $clientNames[] = $clientName;
+         }
+         return $clientNames;
+    }
+
+    private function startGame() {
+        $clientNames = $this->getClientNames();
+        $players = [];
+        foreach  ($clientNames as $playerName) {
+            $players[] = new Player($playerName);
+        }
+        if (count($players) === 2)   {
+            $this->gameHandler = new GameHandler($players[0], $players[1]);
+            // game has officially started
+
+
+            // getQuestion","answerQuestion","getState
+            foreach ($this->clients as $client) {
+                $playerName = $this->clients->offsetGet($client);
+                $message = new Message("getState", ["player" => $playerName]);
+                $state = $this->gameHandler->handleMessage($message);
+                $response = ["type" => "gameStart",
+                "payload" => $state, 
+                ];
+
+                $client->send(json_encode($response));
+            }
+
+            return true;
+        }
+        return false;
     }
 }
