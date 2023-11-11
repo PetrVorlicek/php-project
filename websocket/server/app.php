@@ -1,9 +1,8 @@
 #!/usr/local/bin/php -q
 <?php
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__."/../vendor/autoload.php";
 
 // MESSAGE HANDLER - SERVER GAME LOGIC
-
 function connectDB() {
     // TODO import from some shared space
     // connection to DB
@@ -26,7 +25,6 @@ class Player {
         $this->name = $name;
         $this->points = $points;
     }
-
 }
 
 class Question {
@@ -64,10 +62,14 @@ class Question {
         $rightAnswerQuery->execute(["categoryID" => $categoryID,"pointsID"=> $pointsID]);
         $wrongAnswersQuery->execute(["categoryID" => $categoryID,"pointsID"=> $pointsID]);
 
+        // Load data
         $questionData = $questionQuery->fetch(PDO::FETCH_ASSOC);
         $rigthAnswerData = $rightAnswerQuery->fetch(PDO::FETCH_ASSOC);
         $wrongAnswersData = $wrongAnswersQuery->fetch(PDO::FETCH_ASSOC);
 
+        $this->question = $questionData[0]["question"];
+        $this->rigthAnswer = $rigthAnswerData[0]["answer_text"];
+        $this->wrongAnswers = array_column($wrongAnswersData, "answer_text");
 
         // Close db connection
         $db = null;
@@ -83,7 +85,7 @@ class Question {
 
     public function evalQuestion($userAnswer) {
         if ($this->used) {
-            // You don't get points for answering twice!
+            // You don"t get points for answering twice!
             return 0;
         } 
         $this->used = true;
@@ -93,13 +95,13 @@ class Question {
         }
         return 0;
     }
- }
+}
 
 class QuestionCategory {
     private $className;
     private $questions;
 
-    
+
     public function getQuestion($pointValue) {
 
     }
@@ -135,9 +137,9 @@ use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
 function generateRandomString($length = 10) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     $charactersLength = strlen($characters);
-    $randomString = '';
+    $randomString = "";
     for ($i = 0; $i < $length; $i++) {
         $randomString .= $characters[random_int(0, $charactersLength - 1)];
     }
@@ -178,8 +180,8 @@ class MyChat implements MessageComponentInterface {
 
     public function onMessage(ConnectionInterface $from, $msg) {
         $numRecv = count($this->clients) - 1;
-        echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
-            , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
+        echo sprintf("Connection %d sending message '%s' to %d other connection%s" . "\n"
+            , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? "" : "s");
 
         foreach ($this->clients as $client) {
             if ($from !== $client) {
