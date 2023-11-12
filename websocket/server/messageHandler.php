@@ -50,7 +50,7 @@ class MessageHandler implements MessageComponentInterface {
     public function onMessage(ConnectionInterface $from, $message) {
         $parsedMessage = json_decode($message, true);
         $senderName = $parsedMessage["payload"]["player"];
-
+        //echo print_r($parsedMessage);
         // Guard game end
         if ($this->gameHandler->isOver()) {
             // Game end can be handled by data from state on frontend
@@ -151,7 +151,6 @@ class MessageHandler implements MessageComponentInterface {
         if (count($players) === 2)   {
             $this->gameHandler = new GameHandler($players[0], $players[1]);
             // game has officially started
-
 
             // getQuestion","answerQuestion","getState
             foreach ($this->clients as $client) {
