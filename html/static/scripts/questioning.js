@@ -1,9 +1,27 @@
-const playerInfo = {
-  name: "playerName",
-  points: 0,
+// Game State
+let gameState = {
+  player: "",
+  players: [],
+  currentPlayer: {
+    player: "",
+    points: 0,
+    onTurn: false,
+  },
+  oppositePlayer: {
+    player: "",
+    points: 0,
+    onTurn: false,
+  },
+  gameState: {
+    isOver: false,
+    usedQuestions: [],
+  },
 };
-
-let playerName = "";
+let gameReady = false;
+let lastTriggered = {
+  categoryName: "",
+  pointID: "",
+};
 
 const conn = new WebSocket("ws://localhost:8091");
 conn.onopen = function (msg) {
@@ -11,14 +29,11 @@ conn.onopen = function (msg) {
 };
 
 conn.onmessage = function (msg) {
-  // Set player name on greet
+  // Parse and handle valid message
   const parsedMessage = JSON.parse(msg.data);
-  console.log(parsedMessage);
-  if (
-    parsedMessage["type"] !== undefined &&
-    parsedMessage["type"] === "greet"
-  ) {
-    playerName = parsedMessage["payload"]["player"];
+  if (parsedMessage["type"] !== undefined) {
+    console.log(parsedMessage);
+    messageHandler(parsedMessage["type"], parsedMessage["payload"]);
   }
 };
 
@@ -51,91 +66,148 @@ const messageHandler = (type, payload) => {
       console.log(`Unknown message: ${type}:\t${payload}`);
       break;
   }
+
+  handleRedraw();
 };
 
 const handleGreet = (payload) => {
   // This should handle the connection to game lobby
+  gameState["player"] = payload["player"];
+  gameState["players"] = payload["allPlayers"];
 };
 
 const handleError = () => {
   // This should redirect to previous page
+  // TODO make this better :D
+  window.location.href = "http://localhost";
 };
 
 const handleWarning = (payload) => {
   // This should say that the game ended prematurely
+  gameState["players"];
+  gameReady = false;
 };
 
 const handleGameStart = (payload) => {
   // This should initiate the game / game state
+  handleState(payload["payload"]);
+  gameReady = true;
 };
 
 const handleQuestion = (payload) => {
   // This should return the question data (question, answers)
+  showQuestion(payload["question"], payload["answers"]);
 };
 
 const handleAnswer = (payload) => {
   // This should inform the player if his answer was sucessfull
+  // Probabbly not needed, because points should be handled by ws server and state
+  if (payload["player"] === gameState["player"]) {
+    gameState["currentPlayer"]["points"] += payload["points"];
+  }
 };
 
 const handleState = (payload) => {
   // This should update the game state and handle game end
+  gameState["currentPlayer"] = payload["currentPlayer"];
+  gameState["oppositePlayer"] = payload["oppositePlayer"];
+  gameState["gameState"] = payload["gameState"];
+  console.log(gameState);
 };
 
-const triggerQuestion = (categoryName, questionID) => {
+const handleRedraw = () => {};
+
+const answerQuestion = (answer) => {
+  const answerMessage = {
+    type: "answerQuestion",
+    payload: {
+      player: gameState["player"],
+      categoryName: lastTriggered["categoryName"],
+      pointID: lastTriggered["pointID"],
+      answer: answer,
+    },
+  };
+  console.log(answerMessage);
+
+  // Reset modal
+  const gameModalBody = document.querySelector(".modal-body");
+  const gameModalFooter = document.querySelector(".modal-footer");
+  const gameModalTitle = document.querySelector(".modal-title");
+  gameModalTitle.innerText = "";
+  gameModalBody.innerHTML = "";
+  gameModalFooter.innerHTML = "";
+
+  const parsedMessage = JSON.stringify(answerMessage);
+  conn.send(parsedMessage);
+};
+
+const showQuestion = (question, answers) => {
   const questionTextHolder = document.querySelector(".question-text");
   const questionHeader = document.querySelector("#game-modalLabel");
   const gameModalBody = document.querySelector(".modal-body");
   const gameModalFooter = document.querySelector(".modal-footer");
   const gameModalTitle = document.querySelector(".modal-title");
 
+  gameModalTitle.innerText = `Choose answer`;
+
+  gameModalBody.innerHTML = `
+<table>
+<tbody>
+  <tr>
+    <td colspan="2" class="fw-bold">${question}</td>
+  </tr>
+  <tr>
+    <td class="w-50">Answer 1</td>
+    <td class="w-50">
+      <button class="btn answer-btn btn-secondary" data-bs-dismiss="modal" onclick="answerQuestion('${answers[0]}')">
+        ${answers[0]}
+      </button>
+    </td>
+  </tr>
+  <tr>
+    <td class="w-50">Answer 2</td>
+    <td class="w-50">
+      <button class="btn answer-btn btn-secondary" data-bs-dismiss="modal" onclick="answerQuestion('${answers[1]}')">
+        ${answers[1]}
+      </button>
+    </td>
+  </tr>
+  <tr>
+    <td class="w-50">Answer 3</td>
+    <td class="w-50">
+      <button class="btn answer-btn btn-secondary" data-bs-dismiss="modal" onclick="answerQuestion('${answers[2]}')">
+        ${answers[2]}
+      </button>
+    </td>
+  </tr>
+  <tr>
+    <td class="w-50">Answer 4</td>
+    <td class="w-50">
+      <button class="btn answer-btn btn-secondary" data-bs-dismiss="modal" onclick="answerQuestion('${answers[3]}')">
+        ${answers[3]}
+      </button>
+    </td>
+  </tr>
+</tbody>
+</table>`;
+  gameModalFooter.innerHTML = ``;
+};
+
+const triggerQuestion = (categoryName, questionID) => {
+  lastTriggered["categoryName"] = categoryName;
+  lastTriggered["pointID"] = questionID.toString();
+
   const questionMessage = {
     type: "getQuestion",
     payload: {
-      player: playerName,
-      categoryName: categoryName,
-      pointID: questionID.toString(),
+      player: gameState["player"],
+      categoryName: lastTriggered["categoryName"],
+      pointID: lastTriggered["pointID"],
     },
   };
 
   const parsedMessage = JSON.stringify(questionMessage);
   conn.send(parsedMessage);
-  /*gameModalTitle.innerText = `Choose answer`;
-
-  gameModalBody.innerHTML = `
-  <table>
-  <tbody>
-    <tr>
-      <td colspan="2" class="fw-bold">Dafuck question how is the wow?</td>
-    </tr>
-    <tr>
-      <td class="w-50">Answer 1</td>
-      <td class="w-50">
-        <button class="btn answer-btn btn-secondary" data-bs-dismiss="modal" onclick="handlePoints(5)">
-          A
-        </button>
-      </td>
-    </tr>
-    <tr>
-      <td class="w-50">Answer 2</td>
-      <td class="w-50">
-        <button class="btn answer-btn btn-secondary">B</button>
-      </td>
-    </tr>
-    <tr>
-      <td class="w-50">Answer 3</td>
-      <td class="w-50">
-        <button class="btn answer-btn btn-secondary">C</button>
-      </td>
-    </tr>
-    <tr>
-      <td class="w-50">Answer 4</td>
-      <td class="w-50">
-        <button class="btn answer-btn btn-secondary">D</button>
-      </td>
-    </tr>
-  </tbody>
-</table>`;
-  gameModalFooter.innerHTML = ``;*/
 };
 
 const showStarterModal = (questionText) => {
@@ -166,7 +238,7 @@ const showStarterModal = (questionText) => {
 const handlePoints = (points) => {
   const pointsCointainer = document.querySelector(".player-points");
   //jako podminku dat spravnou odpoved
-  if (true) {
+  /*if (true) {
     playerInfo.points += points;
     pointsCointainer.textContent = `Points: ${playerInfo.points}`;
     triggerQuestion();
@@ -174,5 +246,5 @@ const handlePoints = (points) => {
     playerInfo.points -= points;
     pointsCointainer.textContent = `Points: ${playerInfo.points}`;
     triggerQuestion();
-  }
+  }*/
 };
