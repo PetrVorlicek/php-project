@@ -24,15 +24,12 @@ let lastTriggered = {
 };
 
 const conn = new WebSocket("ws://localhost:8091");
-conn.onopen = function (msg) {
-  console.log("Connection established!");
-};
+conn.onopen = function (msg) {};
 
 conn.onmessage = function (msg) {
   // Parse and handle valid message
   const parsedMessage = JSON.parse(msg.data);
   if (parsedMessage["type"] !== undefined) {
-    console.log(parsedMessage);
     messageHandler(parsedMessage["type"], parsedMessage["payload"]);
   }
 };
@@ -112,10 +109,38 @@ const handleState = (payload) => {
   gameState["currentPlayer"] = payload["currentPlayer"];
   gameState["oppositePlayer"] = payload["oppositePlayer"];
   gameState["gameState"] = payload["gameState"];
-  console.log(gameState);
 };
 
-const handleRedraw = () => {};
+const handleRedraw = () => {
+  const playerPointsDiv = document.querySelector("#player-points");
+  const playerNameDiv = document.querySelector("#player-name");
+  const oppositePointsDiv = document.querySelector("#opposite-points");
+  const oppositeNameDiv = document.querySelector("#opposite-name");
+  playerPointsDiv.innerText = gameState["currentPlayer"]["points"];
+  playerNameDiv.innerText = gameState["currentPlayer"]["player"];
+  oppositePointsDiv.innerText = gameState["oppositePlayer"]["points"];
+  oppositeNameDiv.innerText = gameState["oppositePlayer"]["player"];
+
+  while (document.readyState === "loading") {
+    //Wait for document to load
+  }
+  const questionContainer = document.querySelectorAll(".question-container");
+
+  if (!gameState["currentPlayer"]["onTurn"] || !gameReady) {
+    questionContainer.forEach((element) => element.classList.add("invisible"));
+  } else {
+    questionContainer.forEach((element) =>
+      element.classList.remove("invisible")
+    );
+  }
+
+  gameState["gameState"]["usedQuestions"].forEach((question) => {
+    const usedQuestion = document.querySelector(
+      `.${question[0]}-${question[1]}`
+    );
+    usedQuestion.classList.add("invisible");
+  });
+};
 
 const answerQuestion = (answer) => {
   const answerMessage = {
@@ -127,7 +152,6 @@ const answerQuestion = (answer) => {
       answer: answer,
     },
   };
-  console.log(answerMessage);
 
   // Reset modal
   const gameModalBody = document.querySelector(".modal-body");
@@ -233,18 +257,4 @@ const showStarterModal = (questionText) => {
   <button type="button" class="btn btn-primary">
       Save changes
   </button>`;
-};
-
-const handlePoints = (points) => {
-  const pointsCointainer = document.querySelector(".player-points");
-  //jako podminku dat spravnou odpoved
-  /*if (true) {
-    playerInfo.points += points;
-    pointsCointainer.textContent = `Points: ${playerInfo.points}`;
-    triggerQuestion();
-  } else {
-    playerInfo.points -= points;
-    pointsCointainer.textContent = `Points: ${playerInfo.points}`;
-    triggerQuestion();
-  }*/
 };

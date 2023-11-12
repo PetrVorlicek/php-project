@@ -33,8 +33,11 @@
 
     <div class="flex-center">
       <div class="questions-holder w-100 border-radius">
-        <div class="player-name player-info fw-bold rounded flex-center">NAME</div>
-        <div class="player-points player-info fw-bold rounded flex-center">POINTS</div>
+        <div id="player-name" class="player-info fw-bold rounded flex-center">NAME</div>
+        <div id="player-points" class="player-info fw-bold rounded flex-center">POINTS</div>
+        <div class="player-info fw-bold rounded flex-center"> VS </div>
+        <div id="opposite-name" class="player-info fw-bold rounded flex-center">NAME</div>
+        <div id="opposite-points" class="player-info fw-bold rounded flex-center">POINTS</div>
 
         <?php
         $categoryQuery = $db->query("SELECT * FROM category");
@@ -64,14 +67,14 @@
         $index = 0; ?>
 
         <?php foreach ($categoryData as $category) : ?>
-          <div class="category-buttons category-<?= $category["name"]; ?>-btns">
+          <div class="question-container category-buttons category-<?= $category["name"]; ?>-btns invisible">
 
             <?php for ($j = 1; $j < 6; $j++) : ?>
-              <button class="btn btn-question w-100 mb-1" 
+              <button class="btn btn-question w-100 mb-1 <?= $category["name"]; ?>-<?= $j; ?>" 
                       onclick='triggerQuestion("<?= $category["name"]; ?>", <?= $j; ?>)' 
                       data-bs-toggle="modal" 
                       data-bs-target="#game-modal">
-                1
+                <?= $pointData[$j-1]["point_value"] ?>
               </button>
             <?php endfor; ?>
 
