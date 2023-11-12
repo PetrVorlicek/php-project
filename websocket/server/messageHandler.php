@@ -47,15 +47,32 @@ class MessageHandler implements MessageComponentInterface {
         }
     }
 
+    public function onMessage(ConnectionInterface $from, $message) {
+        $parsedMessage = json_decode($message, true);
+        $senderName = $parsedMessage["payload"]["player"];
 
-
-    public function onMessage(ConnectionInterface $from, $msg) {
-        foreach ($this->clients as $client) {
-            if ($from !== $client) {
-                // The sender is not the receiver, send to each client connected
-                $client->send($msg);
-            }
+        // Guard game end
+        if ($this->gameHandler->isOver()) {
+            // Game end can be handled by data from state on frontend
+            $this->broadcastState();
+            return;
         }
+
+        // Guard player on turn
+        if (!$this->gameHandler->checkOnTurn($senderName)) {
+            // If the player is not on turn, we send state message
+            $this->broadcastState();
+            return;
+        }
+
+        // Create handleable message for gameHandler
+        $msg = Message::createFromClientMessage($parsedMessage);
+        $response = $this->gameHandler->handleMessage($msg);
+
+        $parsedResponse = json_encode($response);
+        $from->send($parsedResponse);
+        $this->broadcastState();
+
     }
 
     public function onClose(ConnectionInterface $conn) {
@@ -65,6 +82,7 @@ class MessageHandler implements MessageComponentInterface {
         try {
             $playerName = $this->clients->offsetGet($conn);
         } catch (\Exception $e) {
+            // Does not work without the catch unfortunatelly
             $playerName = null;
         }
 
@@ -115,6 +133,7 @@ class MessageHandler implements MessageComponentInterface {
     }
 
     private function getClientNames() {
+        // Yield client names in array
         $clientNames = [];
         foreach ($this->clients as $client) {
             $clientName = $this->clients->offsetGet($client);
@@ -149,5 +168,16 @@ class MessageHandler implements MessageComponentInterface {
             return true;
         }
         return false;
+    }
+
+    private function broadcastState() {
+        // Send state update to all clients
+        foreach ($this->clients as $client) {
+            $message = new Message("getState", ["player"=>$this->clients->offsetGet($client)]);
+            $response = $this->gameHandler->handleMessage($message);
+            $parsedResponse = json_encode($response);
+
+            $client->send($parsedResponse);
+        }
     }
 }

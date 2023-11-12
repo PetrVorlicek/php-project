@@ -26,12 +26,18 @@ class Player {
 }
 
 class Message {
+    // private array $commands = ["getQuestion","answerQuestion","getState"];
     public string $command;
     public $payload;
 
     public function __construct($command, $payload) {
         $this->command = $command;
         $this->payload = $payload;
+    }
+
+    public static function createFromClientMessage(array $clientMessage) {
+        // the message should be already parsed to dict
+        return new Message($clientMessage["type"], $clientMessage["payload"]);
     }
 }
 
@@ -263,7 +269,6 @@ class Game {
         return $player->name;
     }
 
-    // TODO is this useful?
     public function isOver() {
         return !$this->turnsRemaining > 0;
     }
@@ -284,12 +289,12 @@ class GameHandler {
         if (in_array($message->command, $this->commands)) {
             switch ($message->command) { 
                 case "getQuestion":
-                    return $this->handleGetQuestion($message->payload);
+                    return $this->wrapResponse("question", $this->handleGetQuestion($message->payload));
                 case "answerQuestion":
-                    return $this->handleAnswerQuestion($message->payload);
+                    return $this->wrapResponse("answer", $this->handleAnswerQuestion($message->payload));
                 case "getState":
                 default:
-                    return $this->handleGetState($message->payload);
+                    return $this->wrapResponse("state", $this->handleGetState($message->payload));
             }
         }
     }
@@ -339,5 +344,17 @@ class GameHandler {
             ],
         ];
         return $response;
+    }
+
+    private function wrapResponse($header, $response) {
+        return ["type" => $header, "payload" => $response];
+    }
+
+    public function checkOnTurn(string $playerName) {
+        return $playerName === $this->game->getPlayerOnTurn();
+    }
+
+    public function isOver() {
+        return $this->game->isOver();
     }
 }
