@@ -172,7 +172,7 @@ class QuestionCategory {
     }
     public function answerQuestion($pointID, $userAnswer) {
         // Returns the points the user gets for his answer
-        if (!isset($this->questions[$pointID])) {
+        if (isset($this->questions[$pointID])) {
             $answer = $this->questions[$pointID]->evalQuestion($userAnswer);
             return $answer * QuestionCategory::$points[$pointID];
         }
