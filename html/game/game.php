@@ -33,18 +33,6 @@
 
     <div class="flex-center">
       <div class="questions-holder w-100 border-radius">
-        <script>
-          // FRONTEND websocket script
-          var conn = new WebSocket('ws://localhost:8091');
-          conn.onopen = function(e) {
-              console.log("Connection established!");
-          };
-
-          conn.onmessage = function(e) {
-              console.log(e.data);
-          };
-
-        </script>
         <div class="player-name player-info fw-bold rounded flex-center">NAME</div>
         <div class="player-points player-info fw-bold rounded flex-center">POINTS</div>
 
@@ -75,17 +63,20 @@
         $pointData = $pointQuery->fetchall(PDO::FETCH_ASSOC);
         $index = 0; ?>
 
-        <?php for ($i = 1; $i < 6; $i++) : ?>
-          <div class="category-buttons category-<?= $i; ?>-btns">
+        <?php foreach ($categoryData as $category) : ?>
+          <div class="category-buttons category-<?= $category["name"]; ?>-btns">
 
-            <?php for ($n = 1; $n < 6; $n++) : ?>
-              <button class="btn btn-question w-100 mb-1" onclick="triggerQuestion()" data-bs-toggle="modal" data-bs-target="#game-modal">
+            <?php for ($j = 1; $j < 6; $j++) : ?>
+              <button class="btn btn-question w-100 mb-1" 
+                      onclick='triggerQuestion("<?= $category["name"]; ?>", <?= $j; ?>)' 
+                      data-bs-toggle="modal" 
+                      data-bs-target="#game-modal">
                 1
               </button>
             <?php endfor; ?>
 
           </div>
-        <?php endfor; ?>
+        <?php endforeach; ?>
       </div>
 
       <div class="modal fade" id="game-modal" tabindex="-1" aria-labelledby="game-modal-label" aria-hidden="true">

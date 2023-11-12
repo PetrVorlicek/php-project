@@ -42,7 +42,7 @@ class Message {
 }
 
 class Question {
-    private $used;
+    private $used = false;
     private $question;
     private $rigthAnswer;
     private $wrongAnswers;
@@ -79,10 +79,10 @@ class Question {
         // Load data
         $questionData = $questionQuery->fetch(PDO::FETCH_ASSOC);
         $rigthAnswerData = $rightAnswerQuery->fetch(PDO::FETCH_ASSOC);
-        $wrongAnswersData = $wrongAnswersQuery->fetch(PDO::FETCH_ASSOC);
+        $wrongAnswersData = $wrongAnswersQuery->fetchAll(PDO::FETCH_ASSOC);
 
-        $this->question = $questionData[0]["question"];
-        $this->rigthAnswer = $rigthAnswerData[0]["answer_text"];
+        $this->question = $questionData["question"];
+        $this->rigthAnswer = $rigthAnswerData["answer_text"];
         $this->wrongAnswers = array_column($wrongAnswersData, "answer_text");
 
         // Close db connection
@@ -91,9 +91,16 @@ class Question {
 
     public function getQuestion() {
         // Return shuffled answers, so it does not depend on position.
+        echo "all answers\n";
+
         $allAnswers = [...$this->wrongAnswers, $this->rigthAnswer];
+        print_r($allAnswers);
         shuffle($allAnswers);
+        echo "all answers\n";
+        print_r($allAnswers);
         // Returns a flat array with question as first index
+        echo "all answers\n";
+        print_r([$this->question, ...$allAnswers]);
         return [$this->question, ...$allAnswers];
     }
 
@@ -114,7 +121,7 @@ class Question {
 class QuestionCategory {
     /** @var Question[] */
     private array $questions;
-    private static $points; // [id -> point_value]
+    private static $points;
     public static function loadPoints() {
         // Connect to the DB
         $db = connectDB();
@@ -128,8 +135,8 @@ class QuestionCategory {
         foreach ($data as $row) {
             $points[$row["id"]] = $row["point_value"];
         }
-        QuestionCategory::$points = $points;
 
+        QuestionCategory::$points = $points;
         // Disconnect DB
         $db = null;
     }
@@ -143,18 +150,23 @@ class QuestionCategory {
                                          WHERE category.name = :categoryName');
         $categoryIDQuery->execute(['categoryName'=> $categoryName]);
         $categoryIDData = $categoryIDQuery->fetch(PDO::FETCH_ASSOC);
-        $categoryID = array_column($categoryIDData, 'id');
+        $categoryID = $categoryIDData['id'];
 
         // Create dict of questions
-        foreach (QuestionCategory::$points as $point) {
-            $this->questions[$point["id"]] = new Question($categoryID, $point["id"]);
-        }
 
+        foreach (QuestionCategory::$points as $key => $value) {
+            
+            $this->questions[$key] = new Question($categoryID, strval($key));
+        }
         // Disconnect DB
         $db = null;
     }
     public function getQuestion($pointID) {
-        if (!isset($this->questions[$pointID])) {
+        echo "point id\n";
+        print_r($this->questions[$pointID]);
+
+        if (isset($this->questions[$pointID])) {
+
             return $this->questions[$pointID]->getQuestion();
          }
     }
@@ -170,7 +182,7 @@ class QuestionCategory {
 class Game {
     // Class handling the game state
     /** @var QuestionCategory[] */
-    private array $categories;
+    public array $categories;
     /** @var Player[] */
     private array $players;
     /** @var array<array<string, string>> */ 
@@ -184,9 +196,11 @@ class Game {
 
         // Load category names and categories
         $categoryNameQuery = $db->query("SELECT name FROM category");
-        $categoryNameData = $categoryNameQuery->fetch(PDO::FETCH_ASSOC);
+        $categoryNameData = $categoryNameQuery->fetchAll(PDO::FETCH_ASSOC);
         $categoryNames = array_column($categoryNameData,"name");
-        foreach ($categoryNames as $categoryName) {
+        // init categories
+        $this->categories = [];
+        foreach ($categoryNames as $categoryName) {  
             $this->categories[$categoryName] = new QuestionCategory($categoryName);
         }
 
@@ -213,6 +227,8 @@ class Game {
     }
 
     public function handleQuestion($categoryName,$pointsID) {
+        echo "isset:\n";
+        print_r(isset($this->categories[$categoryName]));
         if(isset($this->categories[$categoryName])) {
             return $this->categories[$categoryName]->getQuestion($pointsID);
         }
@@ -247,10 +263,11 @@ class Game {
 
     public function getPlayerPoints($playerName) {
         // Returns the points of the player with specified name
-        $player = array_filter($this->players, function($player) use ($playerName) {
+        $player = array_values(array_filter($this->players, function($player) use ($playerName) {
             return $player->name === $playerName;
-        })[0];
-        return $player ? $player->points : 0;
+        }));
+
+        return $player ? $player[0]->points : 0;
     }
 
     public function getPlayers() {
@@ -263,9 +280,11 @@ class Game {
 
     public function getOtherPlayer($playerName) {
         // Returns the name of the other player
-        $player = array_filter($this->players, function($player) use ($playerName) {    
+        $player = array_values(array_filter($this->players, function($player) use ($playerName) {    
             return $player->name !== $playerName;
-        })[0];
+        }));
+
+        $player = $player[0];
         return $player->name;
     }
 
@@ -277,7 +296,7 @@ class Game {
 // TODO players are random now, add loading and saving from DB
 class GameHandler {
     // Class handling the message interactions
-    private Game $game;
+    public Game $game;
     /** @var string[] */
     private array $commands = ["getQuestion","answerQuestion","getState"];
 
@@ -300,7 +319,11 @@ class GameHandler {
     }
 
     private function handleGetQuestion($payload) {
+        echo "Payload: \n";
+        print_r($payload);
         $questionData = $this->game->handleQuestion($payload["categoryName"],$payload["pointID"]);
+        echo "questionData\n";
+        print_r($questionData);
         $question = array_shift($questionData);
 
         $response = [
