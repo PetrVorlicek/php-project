@@ -33,7 +33,6 @@ class MessageHandler implements MessageComponentInterface {
             $errorMessage = ["type" =>"error", 
             "payload" => "This session is full!"];
             $conn->send(json_encode($errorMessage));
-            $conn->close();
             return;
         }
         // Save the player connection and his name
@@ -42,7 +41,7 @@ class MessageHandler implements MessageComponentInterface {
 
         $this->greet();
         
-        if (count($this->clients) === 2) {
+        if (count($this->clients) === 2 && !isset($this->gameHandler)) {
             $this->startGame();
         }
     }
@@ -52,6 +51,10 @@ class MessageHandler implements MessageComponentInterface {
         $senderName = $parsedMessage["payload"]["player"];
         //echo print_r($parsedMessage);
         // Guard game end
+        if (!isset($this->gameHandler))
+        {
+            return;
+        }
         if ($this->gameHandler->isOver()) {
             // Game end can be handled by data from state on frontend
             $this->broadcastState();
@@ -102,6 +105,10 @@ class MessageHandler implements MessageComponentInterface {
             }
         }
 
+        // Continue game if there are 2 clients ready
+        if (count($this->clients) == 2) {
+            return;
+        }
         // Destroy the game
         if ($this->gameHandler !== null) {
             $this->gameHandler = null;
