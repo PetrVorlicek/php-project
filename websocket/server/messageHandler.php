@@ -106,7 +106,7 @@ class MessageHandler implements MessageComponentInterface {
         }
 
         // Continue game if there are 2 clients ready
-        if (count($this->clients) == 2) {
+        if (count($this->clients) === 2) {
             return;
         }
         // Destroy the game
