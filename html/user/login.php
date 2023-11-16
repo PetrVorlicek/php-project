@@ -51,10 +51,10 @@
     <p></p>
     <br>
     <label for="password" class="form-label">Heslo</label>
-    <input type="text" name="password" id="password" value="<?=$password; ?>" class="form-control">
+    <input type="password" name="password" id="password" value="<?=$password; ?>" class="form-control">
     <p></p>
     <br>
-    <input type="submit" value="Přihlásit!">
+    <input class="btn btn-secondary" type="submit" value="Přihlásit!">
 </form>
 <p><?=$success; ?></p>
 </div>

@@ -178,10 +178,10 @@ const showQuestion = (question, answers) => {
 <table>
 <tbody>
   <tr>
-    <td colspan="2" class="fw-bold">${question}</td>
+    <td colspan="2" class="fw-bold text-dark">${question}</td>
   </tr>
   <tr>
-    <td class="w-50">Answer 1</td>
+    <td class="w-50 text-dark">Answer 1</td>
     <td class="w-50">
       <button class="btn answer-btn btn-secondary" data-bs-dismiss="modal" onclick="answerQuestion('${answers[0]}')">
         ${answers[0]}
@@ -189,7 +189,7 @@ const showQuestion = (question, answers) => {
     </td>
   </tr>
   <tr>
-    <td class="w-50">Answer 2</td>
+    <td class="w-50 text-dark">Answer 2</td>
     <td class="w-50">
       <button class="btn answer-btn btn-secondary" data-bs-dismiss="modal" onclick="answerQuestion('${answers[1]}')">
         ${answers[1]}
@@ -197,7 +197,7 @@ const showQuestion = (question, answers) => {
     </td>
   </tr>
   <tr>
-    <td class="w-50">Answer 3</td>
+    <td class="w-50 text-dark">Answer 3</td>
     <td class="w-50">
       <button class="btn answer-btn btn-secondary" data-bs-dismiss="modal" onclick="answerQuestion('${answers[2]}')">
         ${answers[2]}
@@ -205,7 +205,7 @@ const showQuestion = (question, answers) => {
     </td>
   </tr>
   <tr>
-    <td class="w-50">Answer 4</td>
+    <td class="w-50 text-dark">Answer 4</td>
     <td class="w-50">
       <button class="btn answer-btn btn-secondary" data-bs-dismiss="modal" onclick="answerQuestion('${answers[3]}')">
         ${answers[3]}

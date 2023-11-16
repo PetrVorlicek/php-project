@@ -1,6 +1,7 @@
 <?php
 // GAME HANDLER - SERVER GAME LOGIC
-function connectDB() {
+function connectDB()
+{
     // TODO import from some shared space
     // connection to DB
     $dbHostname = "db";
@@ -14,39 +15,46 @@ function connectDB() {
 }
 
 // TODO add type annotations
-class Player {
+class Player
+{
     public string $name;
     public int $points;
 
-    public function __construct($name, $points = 0) {
+    public function __construct($name, $points = 0)
+    {
         // TODO rather than using name use ID from DB
         $this->name = $name;
         $this->points = $points;
     }
 }
 
-class Message {
+class Message
+{
     // private array $commands = ["getQuestion","answerQuestion","getState"];
     public string $command;
     public $payload;
 
-    public function __construct($command, $payload) {
+    public function __construct($command, $payload)
+    {
         $this->command = $command;
         $this->payload = $payload;
     }
 
-    public static function createFromClientMessage(array $clientMessage) {
+    public static function createFromClientMessage(array $clientMessage)
+    {
         // the message should be already parsed to dict
         return new Message($clientMessage["type"], $clientMessage["payload"]);
     }
 }
 
-class Question {
+class Question
+{
     private $used = false;
     private $question;
     private $rigthAnswer;
     private $wrongAnswers;
-    public function __construct($categoryID, $pointsID) {
+    public function __construct($categoryID, $pointsID)
+    {
         // This question has not been used yet
         $this->used = false;
         // Get question and answers from database
@@ -57,7 +65,7 @@ class Question {
                                        FROM question
                                        WHERE category_id = :categoryID
                                        AND point_category_id = :pointsID;");
-        
+
         $rightAnswerQuery = $db->prepare("SELECT answer_text 
                                           FROM answer
                                           JOIN question on answer.id = question.r_answer_id
@@ -72,9 +80,9 @@ class Question {
                                            ORDER BY RANDOM()
                                            LIMIT 3;");
         // Execute queries
-        $questionQuery->execute(["categoryID" => $categoryID,"pointsID"=> $pointsID]);
-        $rightAnswerQuery->execute(["categoryID" => $categoryID,"pointsID"=> $pointsID]);
-        $wrongAnswersQuery->execute(["categoryID" => $categoryID,"pointsID"=> $pointsID]);
+        $questionQuery->execute(["categoryID" => $categoryID, "pointsID" => $pointsID]);
+        $rightAnswerQuery->execute(["categoryID" => $categoryID, "pointsID" => $pointsID]);
+        $wrongAnswersQuery->execute(["categoryID" => $categoryID, "pointsID" => $pointsID]);
 
         // Load data
         $questionData = $questionQuery->fetch(PDO::FETCH_ASSOC);
@@ -89,7 +97,8 @@ class Question {
         $db = null;
     }
 
-    public function getQuestion() {
+    public function getQuestion()
+    {
         // Return shuffled answers, so it does not depend on position.
         echo "all answers\n";
 
@@ -104,13 +113,14 @@ class Question {
         return [$this->question, ...$allAnswers];
     }
 
-    public function evalQuestion($userAnswer) {
+    public function evalQuestion($userAnswer)
+    {
         if ($this->used) {
             // You don"t get points for answering twice!
             return 0;
-        } 
+        }
         $this->used = true;
-        if ($this->rigthAnswer===$userAnswer) {
+        if ($this->rigthAnswer === $userAnswer) {
             // Return a point!
             return 1;
         }
@@ -118,11 +128,13 @@ class Question {
     }
 }
 
-class QuestionCategory {
+class QuestionCategory
+{
     /** @var Question[] */
     private array $questions;
     private static $points;
-    public static function loadPoints() {
+    public static function loadPoints()
+    {
         // Connect to the DB
         $db = connectDB();
 
@@ -140,7 +152,8 @@ class QuestionCategory {
         // Disconnect DB
         $db = null;
     }
-    public function __construct($categoryName) {
+    public function __construct($categoryName)
+    {
         // Connect DB
         $db = connectDB();
 
@@ -148,29 +161,31 @@ class QuestionCategory {
         $categoryIDQuery = $db->prepare('SELECT id 
                                          FROM category 
                                          WHERE category.name = :categoryName');
-        $categoryIDQuery->execute(['categoryName'=> $categoryName]);
+        $categoryIDQuery->execute(['categoryName' => $categoryName]);
         $categoryIDData = $categoryIDQuery->fetch(PDO::FETCH_ASSOC);
         $categoryID = $categoryIDData['id'];
 
         // Create dict of questions
 
         foreach (QuestionCategory::$points as $key => $value) {
-            
+
             $this->questions[$key] = new Question($categoryID, strval($key));
         }
         // Disconnect DB
         $db = null;
     }
-    public function getQuestion($pointID) {
+    public function getQuestion($pointID)
+    {
         echo "point id\n";
         print_r($this->questions[$pointID]);
 
         if (isset($this->questions[$pointID])) {
 
             return $this->questions[$pointID]->getQuestion();
-         }
+        }
     }
-    public function answerQuestion($pointID, $userAnswer) {
+    public function answerQuestion($pointID, $userAnswer)
+    {
         // Returns the points the user gets for his answer
         if (isset($this->questions[$pointID])) {
             $answer = $this->questions[$pointID]->evalQuestion($userAnswer);
@@ -179,28 +194,30 @@ class QuestionCategory {
     }
 }
 
-class Game {
+class Game
+{
     // Class handling the game state
     /** @var QuestionCategory[] */
     public array $categories;
     /** @var Player[] */
     private array $players;
-    /** @var array<array<string, string>> */ 
+    /** @var array<array<string, string>> */
     private array $usedQuestions = [];
     private int $onTurn;
     private int $turnsRemaining;
-    public function __construct(Player $player1, Player $player2, int $turnsRemaining = 0) {
-        
+    public function __construct(Player $player1, Player $player2, int $turnsRemaining = 0)
+    {
+
         $db = connectDB();
         QuestionCategory::loadPoints();
 
         // Load category names and categories
         $categoryNameQuery = $db->query("SELECT name FROM category");
         $categoryNameData = $categoryNameQuery->fetchAll(PDO::FETCH_ASSOC);
-        $categoryNames = array_column($categoryNameData,"name");
+        $categoryNames = array_column($categoryNameData, "name");
         // init categories
         $this->categories = [];
-        foreach ($categoryNames as $categoryName) {  
+        foreach ($categoryNames as $categoryName) {
             $this->categories[$categoryName] = new QuestionCategory($categoryName);
         }
 
@@ -218,33 +235,36 @@ class Game {
         $db = null;
     }
 
-    private function &switchTurn() {
+    private function &switchTurn()
+    {
         // Returns the player ref on turn and switches who is on turn next
         $player = $this->players[$this->onTurn];
-        $this->onTurn = $this->onTurn ===0 ? 1 : 0;
+        $this->onTurn = $this->onTurn === 0 ? 1 : 0;
         $this->turnsRemaining -= 1;
         return $player;
     }
 
-    public function handleQuestion($categoryName,$pointsID) {
+    public function handleQuestion($categoryName, $pointsID)
+    {
         echo "isset:\n";
         print_r(isset($this->categories[$categoryName]));
-        if(isset($this->categories[$categoryName])) {
+        if (isset($this->categories[$categoryName])) {
             return $this->categories[$categoryName]->getQuestion($pointsID);
         }
     }
 
-    public function handleAnswer(string $categoryName, string $pointsID, string $userAnswer) {
+    public function handleAnswer(string $categoryName, string $pointsID, string $userAnswer)
+    {
         // Returns true if question was succesfull, false othervise
         if ($this->turnsRemaining <= 0) return false;
 
-        if(isset($this->categories[$categoryName])) {
+        if (isset($this->categories[$categoryName])) {
             // Get player
             $player = &$this->switchTurn();
 
             // Get points for answer
             $points = $this->categories[$categoryName]->answerQuestion($pointsID, $userAnswer);
-            
+
             // Add points to the player
             $player->points += $points;
 
@@ -256,31 +276,36 @@ class Game {
         return false;
     }
 
-    public function getPlayerOnTurn() {
+    public function getPlayerOnTurn()
+    {
         // Returns name of the player on turn
         return $this->players[$this->onTurn]->name;
     }
 
-    public function getPlayerPoints($playerName) {
+    public function getPlayerPoints($playerName)
+    {
         // Returns the points of the player with specified name
-        $player = array_values(array_filter($this->players, function($player) use ($playerName) {
+        $player = array_values(array_filter($this->players, function ($player) use ($playerName) {
             return $player->name === $playerName;
         }));
 
         return $player ? $player[0]->points : 0;
     }
 
-    public function getPlayers() {
+    public function getPlayers()
+    {
         return $this->players;
     }
 
-    public function getUsedQuestions() {
+    public function getUsedQuestions()
+    {
         return $this->usedQuestions;
     }
 
-    public function getOtherPlayer($playerName) {
+    public function getOtherPlayer($playerName)
+    {
         // Returns the name of the other player
-        $player = array_values(array_filter($this->players, function($player) use ($playerName) {    
+        $player = array_values(array_filter($this->players, function ($player) use ($playerName) {
             return $player->name !== $playerName;
         }));
 
@@ -288,25 +313,29 @@ class Game {
         return $player->name;
     }
 
-    public function isOver() {
+    public function isOver()
+    {
         return !$this->turnsRemaining > 0;
     }
 }
 
 // TODO players are random now, add loading and saving from DB
-class GameHandler {
+class GameHandler
+{
     // Class handling the message interactions
     public Game $game;
     /** @var string[] */
-    private array $commands = ["getQuestion","answerQuestion","getState"];
+    private array $commands = ["getQuestion", "answerQuestion", "getState"];
 
-    public function __construct(Player $player1, Player $player2) {
+    public function __construct(Player $player1, Player $player2)
+    {
         $this->game = new Game($player1, $player2);
     }
 
-    public function handleMessage(Message $message) {
+    public function handleMessage(Message $message)
+    {
         if (in_array($message->command, $this->commands)) {
-            switch ($message->command) { 
+            switch ($message->command) {
                 case "getQuestion":
                     return $this->wrapResponse("question", $this->handleGetQuestion($message->payload));
                 case "answerQuestion":
@@ -318,10 +347,11 @@ class GameHandler {
         }
     }
 
-    private function handleGetQuestion($payload) {
+    private function handleGetQuestion($payload)
+    {
         echo "Payload: \n";
         print_r($payload);
-        $questionData = $this->game->handleQuestion($payload["categoryName"],$payload["pointID"]);
+        $questionData = $this->game->handleQuestion($payload["categoryName"], $payload["pointID"]);
         echo "questionData\n";
         print_r($questionData);
         $question = array_shift($questionData);
@@ -334,8 +364,9 @@ class GameHandler {
         return $response;
     }
 
-    private function handleAnswerQuestion($payload) {
-        $this->game->handleAnswer($payload["categoryName"],$payload["pointID"], $payload["answer"]);
+    private function handleAnswerQuestion($payload)
+    {
+        $this->game->handleAnswer($payload["categoryName"], $payload["pointID"], $payload["answer"]);
         $points = $this->game->getPlayerPoints($payload["player"]);
 
         $response = [
@@ -345,11 +376,12 @@ class GameHandler {
         return $response;
     }
 
-    private function handleGetState($payload) {
+    private function handleGetState($payload)
+    {
         // Returns dict with game state
         $player = $payload["player"];
         $otherPlayer = $this->game->getOtherPlayer($player);
-        
+
         $response = [
             "currentPlayer" => [
                 "player" => $player,
@@ -369,15 +401,18 @@ class GameHandler {
         return $response;
     }
 
-    private function wrapResponse($header, $response) {
+    private function wrapResponse($header, $response)
+    {
         return ["type" => $header, "payload" => $response];
     }
 
-    public function checkOnTurn(string $playerName) {
+    public function checkOnTurn(string $playerName)
+    {
         return $playerName === $this->game->getPlayerOnTurn();
     }
 
-    public function isOver() {
+    public function isOver()
+    {
         return $this->game->isOver();
     }
 }
