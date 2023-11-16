@@ -1,7 +1,7 @@
     </section>
     <footer class="container">
         <hr>
-        <p>Mirkovi smrdi nohy</p>
+        <p>Vytvořeno uctívači boha Mirka</p>
     </footer>
 
     </body>

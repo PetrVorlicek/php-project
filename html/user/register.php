@@ -50,10 +50,10 @@
             <p><?= $usernameError; ?></p>
             <br>
             <label for="password" class="form-label">Heslo</label>
-            <input type="text" name="password" id="password" value="<?=$password; ?>" class="form-control" >
+            <input type="password" name="password" id="password" value="<?=$password; ?>" class="form-control" >
             <p><?= $passwordError; ?></p>
             <br>
-            <input type="submit" value="Zaregistrovat!">
+            <input class="btn btn-secondary" type="submit" value="Zaregistrovat!">
         </form>
         <p><?=$success; ?></p>
     </div>

@@ -82,12 +82,11 @@
         <?php endforeach; ?>
       </div>
 
-      <div class="modal fade" id="game-modal" tabindex="-1" aria-labelledby="game-modal-label" aria-hidden="true">
+      <div class="modal fade" id="game-modal" tabindex="-1" aria-labelledby="game-modal-label" data-bs-keyboard="false" data-bs-backdrop="static" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5 fw-bold" id="game-modal-label"></h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <h1 class="modal-title fs-5 fw-bold text-dark" id="game-modal-label"></h1>
             </div>
             <div class="modal-body d-flex align-items-center justify-content-center"></div>
             <div class="modal-footer">
@@ -99,7 +98,6 @@
     </div>
   </div>
 </body>
-
 </html>
 
 

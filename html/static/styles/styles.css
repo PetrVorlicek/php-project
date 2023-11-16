@@ -1,12 +1,16 @@
 @import url("variables.css");
 
+* {
+  color:white
+}
+
 body {
   min-height: 100vh;
   background: linear-gradient(
     to top left,
-    var(--question-table-border),
-    var(--terciary),
-    var(--question-table-border)
+    var(--page-background-dark),
+    var(--page-background-light),
+    var(--page-background-dark)
   );
 }
 
@@ -27,6 +31,10 @@ body {
   background-image: linear-gradient(to top, var(--question-table-start), var(--question-table-end));
   min-height: 30vh;
   border: var(--border-width) solid var(--question-table-border);
+  
+  & * {
+    color: black;
+  }
 
   & .player-info {
     background-color: var(--info);
@@ -76,7 +84,11 @@ body {
   & .column {
     border: 2px solid rgba(228, 14, 14, 0.8);
   }
-
+  .modal {
+    & * {
+      color: black;
+    }
+  }
   .modal-header {
     background-color: var(--terciary);
   }
