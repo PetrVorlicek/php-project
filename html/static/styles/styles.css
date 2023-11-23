@@ -1,8 +1,9 @@
 @import url("variables.css");
 
-* {
-  color:white
-}
+footer{color: white;}
+header{color: white;}
+
+hr{ background-color: white; height: 1px; border: 0; }
 
 body {
   min-height: 100vh;
@@ -14,6 +15,10 @@ body {
   );
 }
 
+.card-body{
+  color: black !important;
+}
+
 .header {
   & .main-nav {
     & .btn {
@@ -22,6 +27,18 @@ body {
       margin: calc(var(--gutter) * 0.5);
     }
   }
+}
+
+.nadpis-cast1{
+  font-size: 2.5em;
+  letter-spacing: 0.06em;
+}
+
+.nadpis-cast2{
+  font-size: 1.5em;
+  letter-spacing: 0.05em;
+  font-style: italic;
+  margin-left: 0.2em;
 }
 
 .questions-holder {
