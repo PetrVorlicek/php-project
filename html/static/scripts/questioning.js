@@ -125,12 +125,17 @@ const handleRedraw = () => {
     //Wait for document to load
   }
   const questionContainer = document.querySelectorAll(".question-container");
-
+  const waitingText = document.querySelector(".wait-for-turn-text");
+if (gameState.oppositePlayer.player) {
+  waitingText.querySelector(".wait-for-turn-state").innerText = "Na tahu je soupeř";
+}
   if (!gameState["currentPlayer"]["onTurn"] || !gameReady) {
     questionContainer.forEach((element) => element.classList.add("invisible"));
+    waitingText.classList.remove("invisible");
   } else {
     questionContainer.forEach((element) =>
-      element.classList.remove("invisible")
+      {element.classList.remove("invisible");
+      waitingText.classList.add("invisible");}
     );
   }
 

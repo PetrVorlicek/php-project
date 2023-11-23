@@ -32,6 +32,12 @@
     </div>
 
     <div class="flex-center">
+
+      <div class="wait-for-turn-text position-absolute d-flex align-items-center justiy-content-center">
+        <div class="me-3 text-white fw-bold fs-4 wait-for-turn-state">Čeká se na soupeře</div>
+        <div class="spinner-border text-primary" role="status"></div>
+      </div>
+
       <div class="questions-holder w-100 border-radius">
         <div id="player-name" class="player-info fw-bold rounded flex-center">NAME</div>
         <div id="player-points" class="player-info fw-bold rounded flex-center">POINTS</div>
@@ -70,11 +76,8 @@
           <div class="question-container category-buttons category-<?= $category["name"]; ?>-btns invisible">
 
             <?php for ($j = 1; $j < 6; $j++) : ?>
-              <button class="btn btn-question w-100 mb-1 <?= $category["name"]; ?>-<?= $j; ?>" 
-                      onclick='triggerQuestion("<?= $category["name"]; ?>", <?= $j; ?>)' 
-                      data-bs-toggle="modal" 
-                      data-bs-target="#game-modal">
-                <?= $pointData[$j-1]["point_value"] ?>
+              <button class="btn btn-question w-100 mb-1 <?= $category["name"]; ?>-<?= $j; ?>" onclick='triggerQuestion("<?= $category["name"]; ?>", <?= $j; ?>)' data-bs-toggle="modal" data-bs-target="#game-modal">
+                <?= $pointData[$j - 1]["point_value"] ?>
               </button>
             <?php endfor; ?>
 
@@ -98,6 +101,7 @@
     </div>
   </div>
 </body>
+
 </html>
 
 
