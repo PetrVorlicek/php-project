@@ -15,7 +15,7 @@
                         <h5 class="card-title">Inovacích v Zemědělství</h5>
                         <p class="card-text">Vytvořil: Pepa Mráček</p>
                         <p class="card-text">Počet spuštění: 100</p>
-                        <a href="/play" class="btn btn-primary">Spustit kvíz!</a>
+                        <a href="./play" class="btn btn-primary">Spustit kvíz!</a>
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                         <h5 class="card-title">Inovacích v Zemědělství</h5>
                         <p class="card-text">Vytvořil: Pepa Mráček</p>
                         <p class="card-text">Počet spuštění: 100</p>
-                        <a href="/play" class="btn btn-primary">Spustit kvíz!</a>
+                        <a href="./play" class="btn btn-primary">Spustit kvíz!</a>
                     </div>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                         <h5 class="card-title">Inovacích v Zemědělství</h5>
                         <p class="card-text">Vytvořil: Pepa Mráček</p>
                         <p class="card-text">Počet spuštění: 100</p>
-                        <a href="/play" class="btn btn-primary">Spustit kvíz!</a>
+                        <a href="./play" class="btn btn-primary">Spustit kvíz!</a>
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                         <h5 class="card-title">Inovacích v Zemědělství</h5>
                         <p class="card-text">Vytvořil: Pepa Mráček</p>
                         <p class="card-text">Počet spuštění: 100</p>
-                        <a href="/play" class="btn btn-primary">Spustit kvíz!</a>
+                        <a href="./play" class="btn btn-primary">Spustit kvíz!</a>
                     </div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
                         <h5 class="card-title">Inovacích v Zemědělství</h5>
                         <p class="card-text">Vytvořil: Pepa Mráček</p>
                         <p class="card-text">Počet spuštění: 100</p>
-                        <a href="/play" class="btn btn-primary">Spustit kvíz!</a>
+                        <a href="./play" class="btn btn-primary">Spustit kvíz!</a>
                     </div>
                 </div>
             </div>
@@ -70,7 +70,7 @@
                         <h5 class="card-title">Inovacích v Zemědělství</h5>
                         <p class="card-text">Vytvořil: Pepa Mráček</p>
                         <p class="card-text">Počet spuštění: 100</p>
-                        <a href="/play" class="btn btn-primary">Spustit kvíz!</a>
+                        <a href="./play" class="btn btn-primary">Spustit kvíz!</a>
                     </div>
                 </div>
             </div>
@@ -81,7 +81,7 @@
                         <h5 class="card-title">Inovacích v Zemědělství</h5>
                         <p class="card-text">Vytvořil: Pepa Mráček</p>
                         <p class="card-text">Počet spuštění: 100</p>
-                        <a href="/play" class="btn btn-primary">Spustit kvíz!</a>
+                        <a href="./play" class="btn btn-primary">Spustit kvíz!</a>
                     </div>
                 </div>
             </div>
@@ -92,7 +92,7 @@
                         <h5 class="card-title">Inovacích v Zemědělství</h5>
                         <p class="card-text">Vytvořil: Pepa Mráček</p>
                         <p class="card-text">Počet spuštění: 100</p>
-                        <a href="/play" class="btn btn-primary">Spustit kvíz!</a>
+                        <a href="./play" class="btn btn-primary">Spustit kvíz!</a>
                     </div>
                 </div>
             </div>

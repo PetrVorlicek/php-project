@@ -8,6 +8,12 @@
   $homeDir = '/home/';
   $userDir = '/user/';
 
+  $prefix = '/zs2324/11';
+
+  if (substr($path, 0, strlen($prefix)) == $prefix) {
+    $path = substr($path, strlen($prefix));
+  } 
+
   switch ($path) {
     case '':
     case '/':
@@ -37,6 +43,15 @@
     case '/error':
       require __DIR__ . '/error/error.php';
       break;
+
+    case '/database':
+      require __DIR__ . '/database_view.php';
+      break;	
+    case '/database_create':
+      require __DIR__ . '/database_fill.php';
+      break;
+
+      
     default:
       require __DIR__ .'/error/404.php';
       break;
