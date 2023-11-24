@@ -45,7 +45,6 @@
         <div class="col-md-8">
             <h3>Registrace</h3>
             <form method="post" action="">
-
                 <label for="username" class="form-label">Nickname</label>
                 <input type="text" name="username" id="username" value="<?=$username; ?>" class="form-control" >
                 <p><?= $usernameError; ?></p>

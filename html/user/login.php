@@ -59,7 +59,7 @@
             <input class="btn btn-secondary" type="submit" value="Přihlásit!">
         </form>
         <p><?=$success; ?></p>
-
     </div>
+
 </div>
 <?php include "./templates/php-footer.php"; ?>
