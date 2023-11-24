@@ -109,6 +109,8 @@ const handleState = (payload) => {
   gameState["currentPlayer"] = payload["currentPlayer"];
   gameState["oppositePlayer"] = payload["oppositePlayer"];
   gameState["gameState"] = payload["gameState"];
+  console.log(gameState["gameState"]);
+  console.log(payload["gameState"]);
 };
 
 const handleRedraw = () => {
@@ -124,22 +126,37 @@ const handleRedraw = () => {
   while (document.readyState === "loading") {
     //Wait for document to load
   }
-  const questionContainer = document.querySelectorAll(".question-container");
-  const waitingText = document.querySelector(".wait-for-turn-text");
-if (gameState.oppositePlayer.player) {
-  waitingText.querySelector(".wait-for-turn-state").innerText = "Na tahu je soupeř";
-}
-  if (!gameState["currentPlayer"]["onTurn"] || !gameReady) {
-    questionContainer.forEach((element) => element.classList.add("invisible"));
-    waitingText.classList.remove("invisible");
+
+  renderCurrentUI(gameState, gameReady);
+  renderInvisible(gameState["gameState"]["usedQuestions"]);
+};
+
+const renderCurrentUI = (state, ready) => {
+  // Renders question field depending on the state of the game depending on player view
+  const buttonQuestion = document.querySelectorAll(".btn-question");
+  const waitState = document.querySelector(".wait-for-turn-state");
+
+  if (!state["currentPlayer"]["onTurn"]) {
+    buttonQuestion.forEach((element) => element.classList.add("invisible"));
+    waitState.classList.remove("d-none");
   } else {
-    questionContainer.forEach((element) =>
-      {element.classList.remove("invisible");
-      waitingText.classList.add("invisible");}
-    );
+    buttonQuestion.forEach((element) => element.classList.remove("invisible"));
+    waitState.classList.add("d-none");
   }
 
-  gameState["gameState"]["usedQuestions"].forEach((question) => {
+  if (!ready) {
+    waitState.innerText = "Čeká se na druhého hráče. ";
+    buttonQuestion.forEach((element) => element.classList.add("invisible"));
+    waitState.classList.remove("d-none");
+    return;
+  } else {
+    waitState.innerText = "Druhý hráč na tahu! ";
+  }
+};
+
+const renderInvisible = (questionArray) => {
+  // Used questions are rendered as invisible
+  questionArray.forEach((question) => {
     const usedQuestion = document.querySelector(
       `.${question[0]}-${question[1]}`
     );

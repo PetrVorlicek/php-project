@@ -35,7 +35,6 @@
 
       <div class="wait-for-turn-text position-absolute d-flex align-items-center justiy-content-center">
         <div class="me-3 text-white fw-bold fs-4 wait-for-turn-state">Čeká se na soupeře</div>
-        <div class="spinner-border text-primary" role="status"></div>
       </div>
 
       <div class="questions-holder w-100 border-radius">
@@ -73,10 +72,10 @@
         $index = 0; ?>
 
         <?php foreach ($categoryData as $category) : ?>
-          <div class="question-container category-buttons category-<?= $category["name"]; ?>-btns invisible">
+          <div class="question-container category-buttons category-<?= $category["name"]; ?>-btns">
 
             <?php for ($j = 1; $j < 6; $j++) : ?>
-              <button class="btn btn-question w-100 mb-1 <?= $category["name"]; ?>-<?= $j; ?>" onclick='triggerQuestion("<?= $category["name"]; ?>", <?= $j; ?>)' data-bs-toggle="modal" data-bs-target="#game-modal">
+              <button class="btn btn-question w-100 mb-1 invisible <?= $category["name"]; ?>-<?= $j; ?>" onclick='triggerQuestion("<?= $category["name"]; ?>", <?= $j; ?>)' data-bs-toggle="modal" data-bs-target="#game-modal">
                 <?= $pointData[$j - 1]["point_value"] ?>
               </button>
             <?php endfor; ?>
