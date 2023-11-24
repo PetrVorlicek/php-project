@@ -103,13 +103,8 @@ class Question
         echo "all answers\n";
 
         $allAnswers = [...$this->wrongAnswers, $this->rigthAnswer];
-        print_r($allAnswers);
         shuffle($allAnswers);
-        echo "all answers\n";
-        print_r($allAnswers);
         // Returns a flat array with question as first index
-        echo "all answers\n";
-        print_r([$this->question, ...$allAnswers]);
         return [$this->question, ...$allAnswers];
     }
 
