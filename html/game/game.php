@@ -22,10 +22,12 @@
     // Load environment adress
     const ENV_LOCAL = "<?= $_ENV['LOCAL_DEV'] ?>" === "True"? true: false;
     const ENV_DNS = "<?= $_ENV['DNS'] ?>" === "True"? true: false;
+    const check = "<?= $_ENV['PUBLIC_IP'] ?>";
+
     let ENV_ADRESS = "";
     if (ENV_LOCAL) {ENV_ADRESS = "localhost";}
-    else if (ENV_DNS) {ENV_ADRESS = "<? $_ENV['DOMAIN'] ?>"; }
-    else {ENV_ADRESS = "<? $_ENV['PUBLIC_IP'] ?>";}
+    else if (ENV_DNS) {ENV_ADRESS = "<?= $_ENV['DOMAIN'] ?>"; }
+    else {ENV_ADRESS = "<?= $_ENV['PUBLIC_IP'] ?>";}
   </script>
   <script src="../static/scripts/gameState.js"></script>
   <script src="../static/scripts/uiRenderer.js"></script>
