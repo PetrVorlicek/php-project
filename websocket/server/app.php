@@ -1,6 +1,6 @@
 #!/usr/local/bin/php -q
 <?php
-require __DIR__."/../vendor/autoload.php";
+require __DIR__."/../../vendor/autoload.php";
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
@@ -12,7 +12,7 @@ $server = IoServer::factory(
             new MessageHandler()
         )
     ),
-    8091
+    8081
 );
 
 $server->run();

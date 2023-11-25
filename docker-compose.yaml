@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - 80:80
-      - 8091:8091
+      - 8081:8081
     volumes:
       - ./html:/var/www/html
       - ./websocket/server:/var/www/websocket/server
@@ -18,7 +18,8 @@ services:
     image: postgres
     restart: unless-stopped
     environment:
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ./seed.sql:/docker-entrypoint-initdb.d/seed.sql
 

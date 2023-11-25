@@ -1,17 +1,3 @@
-
-<!--
-<div class="container pt-5">
-    <nav>
-        <ul class="nav nav-tabs">
-            <li class="nav-item"><a href="/"            class="nav-link <?php echo ($_SERVER['REQUEST_URI'] != '/'          ) ? "text-white" : "active";?>" >Přehled kurzů</a></li>
-            <li class="nav-item"><a href="/about"       class="nav-link <?php echo ($_SERVER['REQUEST_URI'] != '/about'     ) ? "text-white" : "active";?>" >O nás</a></li>
-            <li class="nav-item"><a href="/register"    class="nav-link <?php echo ($_SERVER['REQUEST_URI'] != '/register'  ) ? "text-white" : "active";?>" >Registrace</a></li>
-            <li class="nav-item"><a href="/login"       class="nav-link <?php echo ($_SERVER['REQUEST_URI'] != '/login'     ) ? "text-white" : "active";?>" >Login</a></li>
-        </ul>
-    </nav>
-</div>
-...-->
-
 <div class="container pt-3 px-2">
 <nav class="navbar">
     <div class="container-fluid">

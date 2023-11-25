@@ -1,3 +1,13 @@
+<?php
+  // Get environment variables
+  require __DIR__."/../../vendor/autoload.php";
+  $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/../../", ".env");
+  $dotenv->load();
+
+  // Connect to DB
+  $db = connectDB();
+  ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -8,17 +18,23 @@
   <link rel="stylesheet" href="../static/styles/styles.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
 
+  <script>
+    // Load environment adress
+    const ENV_LOCAL = "<?= $_ENV['LOCAL_DEV'] ?>" === "True"? true: false;
+    const ENV_DNS = "<?= $_ENV['DNS'] ?>" === "True"? true: false;
+    let ENV_ADRESS = "";
+    if (ENV_LOCAL) {ENV_ADRESS = "localhost";}
+    else if (ENV_DNS) {ENV_ADRESS = "<? $_ENV['DOMAIN'] ?>"; }
+    else {ENV_ADRESS = "<? $_ENV['PUBLIC_IP'] ?>";}
+  </script>
+  <script src="../static/scripts/gameState.js"></script>
+  <script src="../static/scripts/uiRenderer.js"></script>
+  <script src="../static/scripts/gameStateHandler.js"></script>
+  <script src="../static/scripts/websocketHandler.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-
-  <script src="../static/scripts/questioning.js"></script>
 </head>
 
 <body>
-
-  <?php
-  // Connection to DB
-  $db = connectDB();
-  ?>
 
   <div class="container">
     <div class="header flex-center w-100 pt-2">

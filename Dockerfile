@@ -8,18 +8,20 @@ RUN apt-get update && apt-get install -y \
 
 # Copy Apache dependencies
 COPY ./html /var/www/html
+COPY ./vendor /var/www/vendor
+COPY ./.env /var/www/.env
+
 
 # Copy Racket dependencies
 COPY ./websocket /var/www/websocket
 COPY ./start.sh /start.sh
 COPY ./composer.json /var/www/websocket/composer.json
-COPY ./vendor /var/www/websocket/vendor
 
 # Install Ratchet
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Apache, Ratchet ports
-EXPOSE 80 8091
+EXPOSE 80 8081
 
 # Allow apache router
 RUN a2enmod rewrite && service apache2 restart

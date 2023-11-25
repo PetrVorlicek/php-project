@@ -1,18 +1,6 @@
 <?php
 // GAME HANDLER - SERVER GAME LOGIC
-function connectDB()
-{
-    // TODO import from some shared space
-    // connection to DB
-    $dbHostname = "db";
-    $dbname = "postgres";
-    $dbUsername = "postgres";
-    $dbPassword = "password";
-
-    $dsn = "pgsql:host=$dbHostname;dbname=$dbname";
-    $db = new PDO($dsn, $dbUsername, $dbPassword);
-    return $db;
-}
+include __DIR__."/dbConnector.php";
 
 // TODO add type annotations
 class Player
