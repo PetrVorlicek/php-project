@@ -49,29 +49,6 @@ const renderInvisible = (questionArray) => {
   });
 };
 
-const answerQuestion = (answer) => {
-  const answerMessage = {
-    type: "answerQuestion",
-    payload: {
-      player: gameState["player"],
-      categoryName: lastTriggered["categoryName"],
-      pointID: lastTriggered["pointID"],
-      answer: answer,
-    },
-  };
-
-  // Reset modal
-  const gameModalBody = document.querySelector(".modal-body");
-  const gameModalFooter = document.querySelector(".modal-footer");
-  const gameModalTitle = document.querySelector(".modal-title");
-  gameModalTitle.innerText = "";
-  gameModalBody.innerHTML = "";
-  gameModalFooter.innerHTML = "";
-
-  const parsedMessage = JSON.stringify(answerMessage);
-  conn.send(parsedMessage);
-};
-
 const showQuestion = (question, answers) => {
   const questionTextHolder = document.querySelector(".question-text");
   const questionHeader = document.querySelector("#game-modalLabel");
@@ -122,23 +99,6 @@ const showQuestion = (question, answers) => {
   </tbody>
   </table>`;
   gameModalFooter.innerHTML = ``;
-};
-
-const triggerQuestion = (categoryName, questionID) => {
-  lastTriggered["categoryName"] = categoryName;
-  lastTriggered["pointID"] = questionID.toString();
-
-  const questionMessage = {
-    type: "getQuestion",
-    payload: {
-      player: gameState["player"],
-      categoryName: lastTriggered["categoryName"],
-      pointID: lastTriggered["pointID"],
-    },
-  };
-
-  const parsedMessage = JSON.stringify(questionMessage);
-  conn.send(parsedMessage);
 };
 
 const showStarterModal = (questionText) => {
