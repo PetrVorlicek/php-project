@@ -2,14 +2,70 @@
     $title="Tým";
     $site="O nás:";
     include "./templates/php-home-header.php"; ?>
-    <div class="text-break">
-    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam quis quam. Sed elit dui, pellentesque a, faucibus vel, interdum nec, diam. Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Aliquam erat volutpat. Morbi imperdiet, mauris ac auctor dictum, nisl ligula egestas nulla, et sollicitudin sem purus in lacus. Etiam egestas wisi a erat. Praesent dapibus. Integer imperdiet lectus quis justo. Suspendisse sagittis ultrices augue. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+    <div class="text-break container text-white">
+	<h3>
+	Tato stránka popisuje tento web, jeho idea a strukturu.
+	</h3>
 
-<p>Phasellus faucibus molestie nisl. Maecenas ipsum velit, consectetuer eu lobortis ut, dictum at dui. Donec vitae arcu. Nullam justo enim, consectetuer nec, ullamcorper ac, vestibulum in, elit. Aenean id metus id velit ullamcorper pulvinar. Duis risus. Morbi scelerisque luctus velit. Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus. Cras elementum. Fusce dui leo, imperdiet in, aliquam sit amet, feugiat eu, orci.</p>
 
-<p>Aliquam erat volutpat. Suspendisse sagittis ultrices augue. Mauris tincidunt sem sed arcu. Curabitur bibendum justo non orci. Nulla non arcu lacinia neque faucibus fringilla. Pellentesque arcu. Maecenas lorem. Nulla est. Donec ipsum massa, ullamcorper in, auctor et, scelerisque sed, est. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Donec vitae arcu. Donec quis nibh at felis congue commodo. Nullam faucibus mi quis velit. Maecenas lorem. Nunc dapibus tortor vel mi dapibus sollicitudin. Aenean vel massa quis mauris vehicula lacinia. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Fusce tellus. Praesent vitae arcu tempor neque lacinia pretium. Aenean id metus id velit ullamcorper pulvinar.</p>
+	<h3>
+	Idea webu:
+	</h3>
 
-<p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Maecenas aliquet accumsan leo. Maecenas sollicitudin. In dapibus augue non sapien. Aenean placerat. Fusce dui leo, imperdiet in, aliquam sit amet, feugiat eu, orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer in sapien. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Praesent dapibus. Integer in sapien. Duis viverra diam non justo. Etiam dui sem, fermentum vitae, sagittis id, malesuada in, quam. Aliquam erat volutpat. Phasellus et lorem id felis nonummy placerat. Duis viverra diam non justo. Maecenas lorem. In enim a arcu imperdiet malesuada. Vivamus ac leo pretium faucibus.</p>
+	<p>
+	Myšlenkou hry Riskuj je vytvořit zábavnou a poutavou hru, která prověří znalosti a dovednosti hráčů v různých tématech souvisejících s Českou zemědělskou univerzitou. Hra je inspirována populárním americkým kvízem Jeopardy! který se vysílá od roku 1964 a stal se kulturním fenoménem, či českou hrou Riskuj! kterou začala v roce 1994 vysílat televize Nova. ČZU Risk! se řídí podobným formátem, kdy v tabulce jsou otázky v různých kategoriích a hodnotách a hráči vybírají dle kategorie a počtu bodů.  
+	</p>
+
+	<p>
+	Uživatelé webu mohou nejel hrát kvízy připravené naším týmem, ale také hrát kvízy jiných hráču a své vlastní kvízy vytvářet.
+	</p>
+
+
+	<h3>
+	Struktura webu
+	</h3>
+
+	<p>
+	Tento web se skládá z následujících stránek:
+	</p>
+
+	<p>
+			<a href="./" class="btn btn-light">/</a> <span class="fs-2 ms-4">Hlavní stránka webu</span>
+	<p>
+	<p>Na hlavní stránce webu se zobrazují především dostupné kvízy.</p>
+
+	<p>
+			<a href="./about" class="btn btn-light">/about</a> <span class="fs-2 ms-4">Informace o webu</span>
+	<p>
+	<p>To je stránka na kterou se právě díváte</p>
+
+	<p>
+			<a href="./homepage" class="btn btn-light">/homepage</a> <span class="fs-2 ms-4">Profil uživatele</span>
+	<p>
+	<p>Na této stránce jsou vidět informace o zvoleném uživateli jako počet bodů a počet výher, jsou zde také vidět kvízy vytvořené uživatelem.</p>
+
+	<p>
+			<a href="./register" class="btn btn-light">/register</a> <span class="fs-2 ms-4">Registrace</span>
+	<p>
+	<p>Formulář pro registraci uživatele.</p>
+
+	<p>
+			<a href="./login" class="btn btn-light">/login</a> <span class="fs-2 ms-4">Přihlášení</span>
+	<p>
+	<p>Formulář pro přihlášení uživatele.</p>
+
+	<p>	
+			<a href="./add" class="btn btn-light">/add</a> <span class="fs-2 ms-4">Přidání kvízu</span>
+	<p>
+	<p>Na této stránce si může uživatel vytvořit svůj vlastní kvíz.</p>
+
+	<p>	
+			<a href="./play" class="btn btn-light">/play</a> <span class="fs-2 ms-4">Kvíz</span>
+	<p>
+	<p>Na této stránce by mělo být možné kvíz hrát, ale kvůli použití jiné databáze než využívá KIT tato stránka momentálně vůbec nefunguje.</p>
+
+
+
 
     </div>
 <?php include "./templates/php-footer.php"; ?>

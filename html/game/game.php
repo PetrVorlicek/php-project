@@ -6,56 +6,24 @@
 
   // Connect to DB
   $db = connectDB();
-  ?>
 
-<!DOCTYPE html>
-<html>
+  $title="Vítejte!";
+  $site="Úvodní stránka";
+  include "./templates/php-home-header.php"; ?>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="../static/styles/universal-classes.css" />
-  <link rel="stylesheet" href="../static/styles/styles.css" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
 
-  <script>
-    // Load environment adress
-    const ENV_LOCAL = "<?= $_ENV['LOCAL_DEV'] ?>" === "True"? true: false;
-    const ENV_DNS = "<?= $_ENV['DNS'] ?>" === "True"? true: false;
-    const check = "<?= $_ENV['PUBLIC_IP'] ?>";
-
-    let ENV_ADRESS = "";
-    if (ENV_LOCAL) {ENV_ADRESS = "localhost";}
-    else if (ENV_DNS) {ENV_ADRESS = "<?= $_ENV['DOMAIN'] ?>"; }
-    else {ENV_ADRESS = "<?= $_ENV['PUBLIC_IP'] ?>";}
-  </script>
-  <script src="../static/scripts/gameState.js"></script>
-  <script src="../static/scripts/uiRenderer.js"></script>
-  <script src="../static/scripts/gameStateHandler.js"></script>
-  <script src="../static/scripts/websocketHandler.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-</head>
-
-<body>
+  
 
   <div class="container">
-    <div class="header flex-center w-100 pt-2">
-      <nav class="main-nav w-100 d-flex mb-4">
-        <?php for ($i = 1; $i < 5; $i++) : ?>
-          <button class="btn btn-primary" class="btn btn-primary" onclick="showStarterModal()" data-bs-toggle="modal" data-bs-target="#game-modal">
-            <a>Players <?= $i ?></a>
-          </button>
-        <?php endfor; ?>
-      </nav>
-    </div>
 
     <div class="flex-center">
 
+      
       <div class="wait-for-turn-text position-absolute d-flex align-items-center justiy-content-center">
-        <div class="me-3 text-white fw-bold fs-4 wait-for-turn-state">Čeká se na soupeře</div>
+        <div class="me-3 text-white fw-bold fs-4 wait-for-turn-state text-center">Čeká se na soupeře</div>
       </div>
 
-      <div class="questions-holder w-100 border-radius">
+      <div class="questions-holder w-100 border-radius text-center">
         <div id="player-name" class="player-info fw-bold rounded flex-center">NAME</div>
         <div id="player-points" class="player-info fw-bold rounded flex-center">POINTS</div>
         <div class="player-info fw-bold rounded flex-center"> VS </div>
@@ -117,10 +85,9 @@
 
     </div>
   </div>
-</body>
-</html>
-
 
 <?php
 $db = null;
 ?>
+
+<?php include "./templates/php-footer.php"; ?>
