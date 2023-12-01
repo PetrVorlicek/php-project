@@ -32,7 +32,10 @@
       require __DIR__ . '/game/game.php';
       break;
     case '/add':
-      require __DIR__ . $userDir . 'add.php';
+      require __DIR__ . $userDir . 'addA.php';
+      break;
+    case '/addB':
+      require __DIR__ . $userDir . 'addB.php';
       break;
     case '/error':
       require __DIR__ . '/error/error.php';

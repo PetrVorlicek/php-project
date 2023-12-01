@@ -1,10 +1,5 @@
 
-
 <?php
-
-
-
-
 $username = 'Admi Nistrátor';
 $points = 986;
 $games = 15;
