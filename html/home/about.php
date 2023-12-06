@@ -37,7 +37,7 @@ include "./templates/php-home-header.php"; ?>
 	<p>
 		<a href="./about" class="btn btn-light">/about</a> <span class="fs-2 ms-4">Informace o webu</span>
 	<p>
-	</p>To je stránka na kterou se právě díváte</p>
+	<p>To je stránka na kterou se právě díváte</p>
 
 	<p>
 		<a href="./homepage" class="btn btn-light">/homepage</a> <span class="fs-2 ms-4">Profil uživatele</span>
@@ -62,8 +62,8 @@ include "./templates/php-home-header.php"; ?>
 	<p>Na stránce pro vytvoření kvízu bylo provedeno AB testování.</p>
 	<p>V první verzi (A) je využito stránkování pro zobrazení / skrytí kategorií, v druhé verzi (B) je využit BS5 Accordion, což umožní rozbalení jednotlivých kategorií.</p>
 	<p>
-		<a href="./add" class="btn btn-light">VERZE A</a> 
-		<a href="./addB" class="btn btn-light ms-4">VERZE B</a> 
+		<a href="./add" class="btn btn-light">VERZE A</a>
+		<a href="./addB" class="btn btn-light ms-4">VERZE B</a>
 	</p>
 
 
