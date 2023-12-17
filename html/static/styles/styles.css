@@ -121,3 +121,14 @@ body {
     }
   }
 }
+
+.warning-bar {
+  background-color: #990a00; /* Red background color */
+  color: white;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Ensure it's on top of other elements */
+}

@@ -40,7 +40,10 @@
 </head>
 
 <body>
-	<header>
+	<header class="pt-5">
+		<div class="warning-bar text-center pt-1 fw-bold">
+			<p>Tato stránka je pouze semestrální projekt na předmět Client Side techonologie. <a class="text-decoration-underline text-white" href="https://github.com/PetrVorlicek/php-project/tree/droplet_env">Odkaz na zdrojový kód.</a></p>
+		</div>
 		<a href="./" class="text-decoration-none">
 			<div class="container pt-5 text-white">
 				<h1>
